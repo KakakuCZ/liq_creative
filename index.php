@@ -28,11 +28,13 @@ $customers = $formManager->getListOfAllCustomers();
     </head>
     <body>
         <div class="container">
-            <p>
-                <a class="btn btn-primary" data-toggle="collapse" href="#menu">Order</a>
-            </p>
-            <div class="row">
-                <div class="col-md-5">
+            <div class="row justify-content-end">
+                <div class="col">
+                    <a class="btn btn-primary" data-toggle="collapse" href="#menu" id="menu-button">Order</a>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-lg-5">
                     <div class="collapse" id="menu">
                         <div class="card card-body">
                             <form>
@@ -42,7 +44,7 @@ $customers = $formManager->getListOfAllCustomers();
                                     </div>
                                     <div class="col">
                                         <select id="customer" class="custom-select">
-                                            <option value="0" selected>Choose customer</option>
+                                            <option value="0" selected>Choose...</option>
                                             <?php
                                             /** @var \Classes\Objects\Customer $customer */
                                             foreach ($customers as $customer) {
@@ -74,7 +76,7 @@ $customers = $formManager->getListOfAllCustomers();
                                     </div>
                                     <div class="col">
                                         <select id="basemedia" class="custom-select product-select">
-                                            <option value="0" selected>Choose base media</option>
+                                            <option value="0" selected>Choose...</option>
                                             <?php
                                             /** @var \Classes\Objects\Product $item */
                                             foreach ($order_parts['base_media']->getItems() as $item) {
@@ -91,7 +93,7 @@ $customers = $formManager->getListOfAllCustomers();
                                     </div>
                                     <div class="col">
                                         <select id="printmedia" class="custom-select product-select">
-                                            <option value="0" selected>Choose print media</option>
+                                            <option value="0" selected>Choose...</option>
                                             <?php
                                             /** @var \Classes\Objects\Product $item */
                                             foreach ($order_parts['print_media']->getItems() as $item) {
@@ -117,7 +119,7 @@ $customers = $formManager->getListOfAllCustomers();
                                     </div>
                                     <div class="col">
                                         <select id="finishing" class="custom-select product-select">
-                                            <option value="0" selected>Choose finishing</option>
+                                            <option value="0" selected>Choose...</option>
                                             <?php
                                             /** @var \Classes\Objects\Product $item */
                                             foreach ($order_parts['finishing']->getItems() as $item) {

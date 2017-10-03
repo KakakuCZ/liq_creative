@@ -2,6 +2,11 @@
     font-size: 1.7em !important;
 }
 
+#menu-button {
+    float: right;
+    margin-bottom: 3px;
+}
+
 #add-customer {
     padding: 0.25em 0.25em 0 0.25em;
     float: right;
@@ -18,4 +23,34 @@
 #finishing,
 #shipping {
     width: 110%;
+}
+
+@media only screen and (min-width: 1200px) {
+    #customer {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    #customer {
+        width: 75%;
+    }
+}
+
+@media only screen and (min-width: 441px) and (max-width: 991px) {
+    #customer {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 360px) and (max-width: 440px) {
+    #customer {
+        width: 75%;
+    }
+}
+
+@media only screen and (max-width: 359px) {
+    #customer {
+        width: 70%;
+    }
 }
