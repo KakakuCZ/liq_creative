@@ -106,16 +106,16 @@ $customers = $formManager->getListOfAllCustomers();
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Ink (£/m<sup>2</sup>)</label>
+                                        <label>Ink (£14.00/m<sup>2</sup>)</label>
                                     </div>
                                     <div class="col">
-                                        <input type="text" value="£14.00" class="form-control" id="ink" disabled="true">
+                                        <input type="text" class="form-control" id="ink" disabled="true">
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Finishing (£/m<sup>2</sup>)</label>
+                                        <label>Finishing (£/m)</label>
                                     </div>
                                     <div class="col">
                                         <select id="finishing" class="custom-select product-select">
@@ -132,16 +132,16 @@ $customers = $formManager->getListOfAllCustomers();
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Labour (£/hr)</label>
+                                        <label>Labour (£30.00/hr)</label>
                                     </div>
                                     <div class="col">
-                                        <input type="text" value="£30.00" class="form-control" id="labour" disabled="true">
+                                        <input type="text" class="form-control" id="labour" disabled="true">
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Supplier shipping</label>
+                                        <label>Shipping (£10.50)</label>
                                     </div>
                                     <div class="col">
                                         <select id="shipping" class="custom-select product-select">
@@ -159,7 +159,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         <button type="button" class="btn btn-block btn-info">Add</button>
                                     </div>
                                     <div class="col">
-                                        <input type="text" value="£123.45" class="form-control" id="labour" disabled="true">
+                                        <input type="text" class="form-control" id="labour" disabled="true">
                                     </div>
                                 </div>
                             </form>
