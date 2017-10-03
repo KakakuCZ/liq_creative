@@ -1,21 +1,16 @@
+<?php
+require_once './includes/head.php';
+
+$formManager = new \Classes\FormManager();
+$form = $formManager->createNewEmptyOrder();
+$order_parts = $form->getPartsForForm();
+
+$customers = $formManager->getListOfAllCustomers();
+?>
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>liq_creative</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!-- styles -->
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-4.0.0-beta.min.css">
-        <link rel="stylesheet" type="text/css" href="css/mycss.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
-        <!-- scripts -->
-        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-        <script type="text/javascript" src="js/popper-1.12.5.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap-4.0.0-beta.min.js"></script>
-        <script type="text/javascript" src="js/myjs.js"></script>
-    </head>
+   <?php includeHead();?>
     <body>
         <div class="container">
             <p>
@@ -32,10 +27,13 @@
                                     </div>
                                     <div class="col">
                                         <select id="customer" class="custom-select">
-                                            <option selected>Choose customer</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option value="0" selected>Choose customer</option>
+                                            <?php
+                                            /** @var \Classes\Objects\Customer $customer */
+                                            foreach ($customers as $customer) {
+                                                echo('<option value="' . $customer->getId() . '">' . $customer->getFullname() . '</option>');
+                                            }
+                                            ?>
                                         </select>
                                         <button type="button" class="btn btn-primary" id="add-customer" data-toggle="modal" data-target="#add-customer-form"><i class="material-icons" id="add-customer-icon">person_add</i></button>
                                     </div>
@@ -47,10 +45,10 @@
                                     </div>
                                     <div class="row col">
                                         <div class="col">
-                                            <input type="number" class="form-control" id="width" placeholder="Width" min="0">
+                                            <input type="number" class="form-control product-select" id="width" placeholder="Width" min="0">
                                         </div>
                                         <div class="col">
-                                            <input type="number" class="form-control" id="length" placeholder="Length" min="0">
+                                            <input type="number" class="form-control product-select" id="length" placeholder="Length" min="0">
                                         </div>
                                     </div>
                                 </div>
@@ -60,11 +58,14 @@
                                         <label>Base media (£/m)</label>
                                     </div>
                                     <div class="col">
-                                        <select id="basemedia" class="custom-select">
-                                            <option selected>Choose base media</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select id="basemedia" class="custom-select product-select">
+                                            <option value="0" selected>Choose base media</option>
+                                            <?php
+                                            /** @var \Classes\Objects\Product $item */
+                                            foreach ($order_parts['base_media']->getItems() as $item) {
+                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '</option>');
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -74,11 +75,14 @@
                                         <label>Print media (£/m)</label>
                                     </div>
                                     <div class="col">
-                                        <select id="printmedia" class="custom-select">
-                                            <option selected>Choose print media</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select id="printmedia" class="custom-select product-select">
+                                            <option value="0" selected>Choose print media</option>
+                                            <?php
+                                            /** @var \Classes\Objects\Product $item */
+                                            foreach ($order_parts['print_media']->getItems() as $item) {
+                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '</option>');
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -88,7 +92,7 @@
                                         <label>Ink (£/m<sup>2</sup>)</label>
                                     </div>
                                     <div class="col">
-                                        <input type="text" value="£14.00" class="form-control" id="ink" disabled="true">
+                                        <input type="text" value="£0" class="form-control" id="ink" disabled="true">
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
@@ -97,11 +101,14 @@
                                         <label>Finishing (£/m<sup>2</sup>)</label>
                                     </div>
                                     <div class="col">
-                                        <select id="finishing" class="custom-select">
-                                            <option selected>Choose customer</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select id="finishing" class="custom-select product-select">
+                                            <option value="0" selected>Choose finishing</option>
+                                            <?php
+                                            /** @var \Classes\Objects\Product $item */
+                                            foreach ($order_parts['finishing']->getItems() as $item) {
+                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '(' . $item->getPriceSell() . '£)' . '</option>');
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -111,7 +118,7 @@
                                         <label>Labour (£/hr)</label>
                                     </div>
                                     <div class="col">
-                                        <input type="text" value="£30.00" class="form-control" id="labour" disabled="true">
+                                        <input type="text" value="£0" class="form-control" id="labour" disabled="true">
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
@@ -120,11 +127,9 @@
                                         <label>Supplier shipping</label>
                                     </div>
                                     <div class="col">
-                                        <select id="shipping" class="custom-select">
-                                            <option selected>Choose customer</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select id="shipping" class="custom-select product-select">
+                                            <option value="1">Yes</option>
+                                            <option selected value="2">No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -137,7 +142,7 @@
                                         <button type="button" class="btn btn-block btn-info">Add</button>
                                     </div>
                                     <div class="col">
-                                        <input type="text" value="£123.45" class="form-control" id="labour" disabled="true">
+                                        <input type="text" value="£0" class="form-control" id="total-price" disabled="true">
                                     </div>
                                 </div>
                             </form>

@@ -77,6 +77,18 @@ class Database
         return $result;
     }
 
+    public function getProductById($id): Product
+    {
+        $query = $this->connection->prepare(
+            "SELECT *
+                       FROM `product_list` 
+                       WHERE `id` = ?");
+        $query->execute(array($id));
+        $result = $query->fetchObject(Product::class);
+
+        return $result;
+    }
+
 
     /** ----- CUSTOMERS PART ----- */
 
@@ -93,7 +105,7 @@ class Database
                        FROM `customers` 
                        WHERE `email` = ?");
         $query->execute(array($email));
-        $result = $query->fetch(PDO::FETCH_CLASS, Product::class);
+        $result = $query->fetch(PDO::FETCH_CLASS, Customer::class);
 
         return $result;
     }
