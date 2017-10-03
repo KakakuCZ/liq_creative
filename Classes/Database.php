@@ -93,7 +93,7 @@ class Database
                        FROM `customers` 
                        WHERE `email` = ?");
         $query->execute(array($email));
-        $result = $query->fetch(PDO::FETCH_CLASS, Product::class);
+        $result = $query->fetch(PDO::FETCH_CLASS, Customer::class);
 
         return $result;
     }

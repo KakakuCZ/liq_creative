@@ -1,3 +1,13 @@
+<?php
+require_once './includes/head.php';
+
+$formManager = new \Classes\FormManager();
+$form = $formManager->createNewOrder();
+$order_parts = $form->getPartsForForm();
+
+$customers = $formManager->getListOfAllCustomers();
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,10 +42,13 @@
                                     </div>
                                     <div class="col">
                                         <select id="customer" class="custom-select">
-                                            <option selected>Choose customer</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option value="0" selected>Choose customer</option>
+                                            <?php
+                                            /** @var \Classes\Objects\Customer $customer */
+                                            foreach ($customers as $customer) {
+                                                echo('<option value="' . $customer->getId() . '">' . $customer->getFullname() . '</option>');
+                                            }
+                                            ?>
                                         </select>
                                         <button type="button" class="btn btn-primary" id="add-customer" data-toggle="modal" data-target="#add-customer-form"><i class="material-icons" id="add-customer-icon">person_add</i></button>
                                     </div>
@@ -47,10 +60,10 @@
                                     </div>
                                     <div class="row col">
                                         <div class="col">
-                                            <input type="number" class="form-control" id="width" placeholder="Width" min="0">
+                                            <input type="number" class="form-control product-select" id="width" placeholder="Width" min="0">
                                         </div>
                                         <div class="col">
-                                            <input type="number" class="form-control" id="length" placeholder="Length" min="0">
+                                            <input type="number" class="form-control product-select" id="length" placeholder="Length" min="0">
                                         </div>
                                     </div>
                                 </div>
@@ -60,11 +73,14 @@
                                         <label>Base media (£/m)</label>
                                     </div>
                                     <div class="col">
-                                        <select id="basemedia" class="custom-select">
-                                            <option selected>Choose base media</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select id="basemedia" class="custom-select product-select">
+                                            <option value="0" selected>Choose base media</option>
+                                            <?php
+                                            /** @var \Classes\Objects\Product $item */
+                                            foreach ($order_parts['base_media']->getItems() as $item) {
+                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '</option>');
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -74,11 +90,14 @@
                                         <label>Print media (£/m)</label>
                                     </div>
                                     <div class="col">
-                                        <select id="printmedia" class="custom-select">
-                                            <option selected>Choose print media</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select id="printmedia" class="custom-select product-select">
+                                            <option value="0" selected>Choose print media</option>
+                                            <?php
+                                            /** @var \Classes\Objects\Product $item */
+                                            foreach ($order_parts['print_media']->getItems() as $item) {
+                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '</option>');
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -97,11 +116,14 @@
                                         <label>Finishing (£/m<sup>2</sup>)</label>
                                     </div>
                                     <div class="col">
-                                        <select id="finishing" class="custom-select">
-                                            <option selected>Choose customer</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select id="finishing" class="custom-select product-select">
+                                            <option value="0" selected>Choose finishing</option>
+                                            <?php
+                                            /** @var \Classes\Objects\Product $item */
+                                            foreach ($order_parts['finishing']->getItems() as $item) {
+                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '</option>');
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -120,11 +142,9 @@
                                         <label>Supplier shipping</label>
                                     </div>
                                     <div class="col">
-                                        <select id="shipping" class="custom-select">
-                                            <option selected>Choose customer</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select id="shipping" class="custom-select product-select">
+                                            <option value="1">Yes</option>
+                                            <option selected value="2">No</option>
                                         </select>
                                     </div>
                                 </div>

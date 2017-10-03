@@ -12,7 +12,7 @@ class FormManager
         $this->database = Database::getInstance();
     }
 
-    public function createNewOrder()
+    public function createNewOrder(): Order
     {
         $productTypesWithProduct = $this->database->getAllProductTypes(true);
         $order = new Order($productTypesWithProduct);
