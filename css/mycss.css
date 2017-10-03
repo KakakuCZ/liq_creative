@@ -1,0 +1,21 @@
+#add-customer-icon {
+    font-size: 1.7em !important;
+}
+
+#add-customer {
+    padding: 0.25em 0.25em 0 0.25em;
+    float: right;
+}
+
+#phone::-webkit-inner-spin-button, 
+#phone::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+#basemedia,
+#printmedia,
+#finishing,
+#shipping {
+    width: 110%;
+}
