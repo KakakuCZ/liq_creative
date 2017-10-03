@@ -2,7 +2,7 @@
 require_once './includes/head.php';
 
 $formManager = new \Classes\FormManager();
-$form = $formManager->createNewOrder();
+$form = $formManager->createNewEmptyOrder();
 $order_parts = $form->getPartsForForm();
 
 $customers = $formManager->getListOfAllCustomers();
@@ -10,22 +10,7 @@ $customers = $formManager->getListOfAllCustomers();
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>liq_creative</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!-- styles -->
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-4.0.0-beta.min.css">
-        <link rel="stylesheet" type="text/css" href="css/mycss.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
-        <!-- scripts -->
-        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-        <script type="text/javascript" src="js/popper-1.12.5.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap-4.0.0-beta.min.js"></script>
-        <script type="text/javascript" src="js/myjs.js"></script>
-    </head>
+   <?php includeHead();?>
     <body>
         <div class="container">
             <div class="row justify-content-end">
@@ -109,7 +94,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         <label>Ink (£14.00/m<sup>2</sup>)</label>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" id="ink" disabled="true">
+                                        <input type="text" value="£0" class="form-control" id="ink" disabled="true">
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
@@ -123,7 +108,7 @@ $customers = $formManager->getListOfAllCustomers();
                                             <?php
                                             /** @var \Classes\Objects\Product $item */
                                             foreach ($order_parts['finishing']->getItems() as $item) {
-                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '</option>');
+                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '(' . $item->getPriceSell() . '£)' . '</option>');
                                             }
                                             ?>
                                         </select>
@@ -135,7 +120,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         <label>Labour (£30.00/hr)</label>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" id="labour" disabled="true">
+                                        <input type="text" value="£0" class="form-control" id="labour" disabled="true">
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
@@ -159,7 +144,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         <button type="button" class="btn btn-block btn-info">Add</button>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" id="labour" disabled="true">
+                                        <input type="text" value="£0" class="form-control" id="total-price" disabled="true">
                                     </div>
                                 </div>
                             </form>
