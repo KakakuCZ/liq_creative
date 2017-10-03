@@ -1,4 +1,4 @@
 <?php
-namespace Classes\Exceptions;
+namespace Classes\Exceptions\Customers;
 
 class BadFormatOfCustomersEmailException extends \Exception {}
