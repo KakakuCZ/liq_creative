@@ -2,12 +2,12 @@
 namespace Classes\Logic;
 
 use Classes\Database;
-use Classes\Exceptions\BadFormatOfCustomersEmailException;
-use Classes\Exceptions\CustomerAlreadyExistsException;
-use Classes\Exceptions\CustomersEmailIsTooLongException;
-use Classes\Exceptions\IncorrectFormatOfCustomersPhone;
-use Classes\Exceptions\IncorrectLengthOfCustomersFirstname;
-use Classes\Exceptions\IncorrectLengthOfCustomersLastname;
+use Classes\Exceptions\Customers\BadFormatOfCustomersEmailException;
+use Classes\Exceptions\Customers\CustomerAlreadyExistsException;
+use Classes\Exceptions\Customers\CustomersEmailIsTooLongException;
+use Classes\Exceptions\Customers\IncorrectFormatOfCustomersPhone;
+use Classes\Exceptions\Customers\IncorrectLengthOfCustomersFirstname;
+use Classes\Exceptions\Customers\IncorrectLengthOfCustomersLastname;
 use Classes\Helpers\EmailHelper;
 use Classes\Helpers\StringHelper;
 use Helpers\ConstantHelper;

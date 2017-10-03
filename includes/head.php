@@ -1,4 +1,5 @@
 <?php
+session_start();
 function loadClass($class)
 {
     $parts = explode('\\', $class);
@@ -9,3 +10,10 @@ function loadClass($class)
     require $requireString . '.php';
 }
 spl_autoload_register("loadClass");
+
+function includeHead()
+{
+    require_once 'head.phtml';
+}
+?>
+

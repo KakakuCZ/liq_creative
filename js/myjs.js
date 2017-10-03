@@ -1,4 +1,7 @@
-
+function makePrice(price)
+{
+    return '£' + parseFloat(Math.round(price * 100) / 100).toFixed(2);
+}
 function recalculatePrices()
 {
     var widthInput = $('#width');
@@ -8,6 +11,9 @@ function recalculatePrices()
     var finishingInput = $('#finishing');
     var shippingInput = $('#shipping');
 
+    var totalPrice = $('#total-price');
+    var inkPrice = $('#ink');
+
     var inputs = {
         'width': $(widthInput).val(),
         'length': $(lengthInput).val(),
@@ -16,15 +22,16 @@ function recalculatePrices()
         'finishing': $(finishingInput).val(),
         'shipping': $(shippingInput).val()
     };
-    console.log(inputs);
     $.ajax({
+        dataType: "json",
         method: "GET",
         url: "./recalculatePrice.php",
-        data: { "inputs": JSON.stringify(inputs)}
-    })
-        .done(function( msg ) {
-            console.log('ajax success');
-        });
+        data: { "inputs": JSON.stringify(inputs)},
+        success: function(data) {
+            $(totalPrice).val(makePrice(data.totalPrice));
+            $(inkPrice).val(makePrice(data.inkPrice))
+        }
+    });
 }
 
 $(document).ready(function () {
