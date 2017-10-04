@@ -206,7 +206,11 @@ class Order
 
     public function getFinishingPrice(): float
     {
-         return $this->finishing->getPriceSell() * $this->squareMetres;
+        $totPriceFinishing = 0;
+        foreach ($this->finishing as $finishing) {
+            $totPriceFinishing += $finishing->getPriceSell() * ($this->roleMetres + 0.25);
+        }
+         return $totPriceFinishing;
     }
 
     public function getLabourPrice(): float
