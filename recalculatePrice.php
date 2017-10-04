@@ -7,6 +7,7 @@ $order = $formManager->createOrderBySelectedOptions(json_decode($_GET['inputs'],
 $output = [
     'totalPrice' => $order->getPrice(),
     'inkPrice' => $order->getInkPrice(),
+    'labourPrice' => $order->getLabourPrice(),
 ];
 
 echo(json_encode($output));
