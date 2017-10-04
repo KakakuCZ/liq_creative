@@ -46,12 +46,13 @@ class FormManager
             $inputs['printMedia'] = null;
         }
 
-        if($inputs['finishing'] != 0) {
-            $inputs['finishing'] = $this->database->getProductById($inputs['finishing']);
-        } else {
-            $inputs['finishing'] = null;
+        foreach($inputs['finishing'] as $key => $finishingOne) {
+            if ($finishingOne != 0) {
+                $inputs['finishing'][$key] = $this->database->getProductById($inputs['finishing']);
+            } else {
+                $inputs['finishing'][$key] = null;
+            }
         }
-
 
         if ($inputs['shipping'] == 1) {
             $inputs['shipping'] = true;

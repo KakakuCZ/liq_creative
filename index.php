@@ -10,7 +10,7 @@ $customers = $formManager->getListOfAllCustomers();
 
 <!DOCTYPE html>
 <html>
-   <?php includeHead();?>
+    <?php includeHead(); ?>
     <body>
         <div class="container">
             <div class="row justify-content-end">
@@ -103,15 +103,28 @@ $customers = $formManager->getListOfAllCustomers();
                                         <label>Finishing (£/m)</label>
                                     </div>
                                     <div class="col">
-                                        <select id="finishing" class="custom-select product-select">
-                                            <option value="0" selected>Choose...</option>
-                                            <?php
-                                            /** @var \Classes\Objects\Product $item */
-                                            foreach ($order_parts['finishing']->getItems() as $item) {
-                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '(' . $item->getPriceSell() . '£)' . '</option>');
-                                            }
-                                            ?>
-                                        </select>
+                                        <div>
+                                            <select id="finishing" class="custom-select product-select">
+                                                <option value="0" selected>Choose...</option>
+                                                <?php
+                                                /** @var \Classes\Objects\Product $item */
+                                                foreach ($order_parts['finishing']->getItems() as $item) {
+                                                    echo('<option value="' . $item->getId() . '">' . $item->getName() . ' [£' . $item->getPriceSell() . ']' . '</option>');
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div id="div-finishing-optional">
+                                            <select id="finishing-optional" class="custom-select product-select">
+                                                <option value="0" selected>Choose...</option>
+                                                <?php
+                                                /** @var \Classes\Objects\Product $item */
+                                                foreach ($order_parts['finishing']->getItems() as $item) {
+                                                    echo('<option value="' . $item->getId() . '">' . $item->getName() . ' [£' . $item->getPriceSell() . ']' . '</option>');
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
