@@ -9,6 +9,31 @@ class Order
     const PRICE_INK = 14.00; //per square meter
     const PRICE_LABOUR = 30.00; //per hour
 
+    /** Time cost in minutes */
+
+    //Small is < 1,5m2
+    const TIME_COST_SMALL = [
+      'application' => 5,
+      'timming' => 4,
+      'eyelet' => 1.5
+    ];
+
+    //Medium is 1.5m2 - 3m2
+    const TIME_COST_MEDIUM = [
+      'application' => 10,
+      'timming' => 6,
+      'eyelet' => 1.5
+    ];
+
+    //Large is > 3m2
+    const TIME_COST_LARGE = [
+        'application' => 15,
+        'timming' => 8,
+        'eyelet' => 1.5,
+    ]
+
+
+
 
     const ROLE_WIDTH = 1220 / 1000; //In metres
 
@@ -211,12 +236,17 @@ class Order
 
     public function getLabourPrice(): float
     {
-        //TODO: Count hours by some logic. Now is allways 1 hour
-        return 1 * self::PRICE_LABOUR;
+        return $this->getHours() * self::PRICE_LABOUR;
     }
 
     public function getShippingPrice() :float
     {
         return self::PRICE_SUPPLIER_SHIPING;
+    }
+
+    public function getHours()
+    {
+        //TODO: Count hours by some logic. Now is allways 1 hour
+        return 1;
     }
 }
