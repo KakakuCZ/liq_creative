@@ -119,18 +119,26 @@ function checkNewCustomerForm() {
         if (inputs[i].val() === "") {
             isOk = false;
             inputs[i].css("border", "1px solid rgba(255, 0, 0, 0.75)");
+            if (inputs[i].attr("id") === "email")
+                $("#email-hint").slideDown();
+            if (inputs[i].attr("id") === "phone")
+                $("#phone-hint").slideDown();
         } else {
             inputs[i].css("border", "1px solid rgba(0, 0, 0, 0.15)");
             if (inputs[i].attr("id") === "phone")
                 if (!(inputs[i].val().length >= 9 && inputs[i].val().length <= 20)) {
                     isOk = false;
                     inputs[i].css("border", "1px solid rgba(255, 0, 0, 0.75)");
-                }
+                    $("#phone-hint").slideDown();
+                } else
+                    $("#phone-hint").slideUp();
             if (inputs[i].attr("id") === "email")
                 if (!(isEmailValid(inputs[i].val()))) {
                     isOk = false;
                     inputs[i].css("border", "1px solid rgba(255, 0, 0, 0.75)");
-                }
+                    $("#email-hint").slideDown();
+                } else
+                    $("#email-hint").slideUp();
         }
     return isOk;
 }
@@ -141,8 +149,6 @@ function isEmailValid(email) {
 }
 
 $(document).ready(function () {
-    $("#div-finishing-optional").hide();
-
     $("#finishing").change(function () {
         checkOption();
     });

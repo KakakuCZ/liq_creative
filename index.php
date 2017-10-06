@@ -188,12 +188,14 @@ $customers = $formManager->getListOfAllCustomers();
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="email" class="form-control" placeholder="Email" id="email">
+                                        <input type="text" class="form-control" placeholder="Email" id="email">
+                                        <p id="email-hint" class="form-hint">Email is not valid.</p>
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
                                         <input type="number" class="form-control" placeholder="Phone number" id="phone">
+                                        <p id="phone-hint" class="form-hint">Phone number is not valid.</p>
                                     </div>
                                 </div>
                             </div>
