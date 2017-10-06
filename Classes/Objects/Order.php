@@ -262,7 +262,7 @@ class Order
 
         if ($squareMeters < 1.5) {
             $prices = self::TIME_COST_SMALL;
-        } elseif ($squareMeters > 3) {
+        } elseif ($squareMeters >= 3) {
             $prices = self::TIME_COST_LARGE;
         } else {
             $prices = self::TIME_COST_MEDIUM;

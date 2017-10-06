@@ -22,7 +22,7 @@ $customers = $formManager->getListOfAllCustomers();
                 <div class="col-lg-5">
                     <div class="collapse" id="menu">
                         <div class="card card-body">
-                            <form>
+                            <form id="new-order-form" onsubmit="return checkOrderForm()">
                                 <div class="row">
                                     <div class="col-5">
                                         <label>Customer</label>
@@ -173,7 +173,7 @@ $customers = $formManager->getListOfAllCustomers();
             <div class="modal fade" id="add-customer-form" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form>
+                        <form id="new-customer-form" onsubmit="return checkNewCustomerForm()">
                             <div class="modal-header">
                                 <h5 class="modal-title">Add customer</h5>
                             </div>
