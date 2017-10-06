@@ -14,6 +14,7 @@ function recalculatePrices() {
     var totalPrice = $('#total-price');
     var inkPrice = $('#ink');
     var labourPrice = $('#labour');
+    var labourTime = $('#labour-time');
 
     var finishingTot = [
         $(finishingInput).val(),
@@ -25,7 +26,7 @@ function recalculatePrices() {
         'baseMedia': $(baseMediaInput).val(),
         'printMedia': $(printMediaInput).val(),
         'finishing': finishingTot,
-        'shipping': $(shippingInput).val()
+        'shipping': $(shippingInput).val(),
     };
     $.ajax({
         dataType: "json",
@@ -36,6 +37,7 @@ function recalculatePrices() {
             $(totalPrice).val(makePrice(data.totalPrice));
             $(inkPrice).val(makePrice(data.inkPrice));
             $(labourPrice).val(makePrice(data.labourPrice));
+            $(labourTime).val((data.totalHours * 60) + ' minutes');
         }
     });
 }

@@ -30,7 +30,7 @@ class Order
         'application' => 15,
         'timming' => 8,
         'eyelet' => 1.5,
-    ]
+    ];
 
 
 
@@ -48,10 +48,10 @@ class Order
 
     /** Concrete parts */
 
-    protected $width;
-    protected $length;
+    protected $width; //in metres
+    protected $length; //in metres
 
-    protected $squareMetres;
+    protected $squareMetres; //in m2
     protected $roleMetres;
 
 
@@ -108,6 +108,9 @@ class Order
             if (!in_array($inputName, $allowedNames)) {
                 throw new \InvalidArgumentException();
             }
+            if (($inputName == 'width' || $inputName == 'length') && $inputValue == '') {
+                continue;
+            }
             $this->{'set' . ucfirst($inputName)}($inputValue);
         }
 
@@ -135,7 +138,7 @@ class Order
         $this->printMedia = $printMedia;
     }
 
-    public function setFinishing(?Product $finishing)
+    public function setFinishing(array $finishing)
     {
         $this->finishing = $finishing;
     }
@@ -233,6 +236,9 @@ class Order
     {
         $totPriceFinishing = 0;
         foreach ($this->finishing as $finishing) {
+            if ($finishing == null) {
+                continue;
+            }
             $totPriceFinishing += $finishing->getPriceSell() * ($this->roleMetres + 0.25);
         }
          return $totPriceFinishing;
@@ -250,7 +256,53 @@ class Order
 
     public function getHours()
     {
-        //TODO: Count hours by some logic. Now is allways 1 hour
-        return 1;
+        $totalMinutes = 0;
+
+        $squareMeters = $this->squareMetres;
+
+        if ($squareMeters < 1.5) {
+            $prices = self::TIME_COST_SMALL;
+        } elseif ($squareMeters > 3) {
+            $prices = self::TIME_COST_LARGE;
+        } else {
+            $prices = self::TIME_COST_MEDIUM;
+        }
+
+        //Base Media and Print media
+        if ($this->printMedia !== null && $this->baseMedia !== null) {
+            $totalMinutes += $prices['application'];
+        } elseif ($this->printMedia !== null) {
+            $totalMinutes += $prices['timming'];
+        }
+
+        /** @var Product $finishing */
+        foreach ($this->finishing as $finishing) {
+            if ($finishing === null) {
+                continue;
+            }
+
+            if ($finishing->getName() == 'Vinyl Clr (PoliPrint 810)' || $finishing->getName() == 'App. Tape Clr 1220mm (907)') {
+                $totalMinutes += $prices['application'];
+                continue;
+            }
+
+            if ($finishing->getName() == 'Banner Hem-It Tape (40mm)') {
+                $totalMinutes += 2 * $prices['timming'];
+                continue;
+            }
+
+            if ($finishing->getName() == 'Banner Eyelet Set (SPW)') {
+                //TODO: make logic for counting eyelet
+                $countOfEyelet = 4;
+                $totalMinutes += $countOfEyelet * 1.5;
+            }
+        }
+
+        if ($totalMinutes % 15 != 0) {
+            $totalMinutes = $totalMinutes + (15 - ($totalMinutes % 15));
+        }
+
+        //convert in hours
+        return $totalMinutes / 60;
     }
 }

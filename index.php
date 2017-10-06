@@ -133,6 +133,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         <label>Labour (£30.00/hr)</label>
                                     </div>
                                     <div class="col">
+                                        <input type="text" value="- minutes" class="form-control" id="labour-time" disabled="true">
                                         <input type="text" value="£0" class="form-control" id="labour" disabled="true">
                                     </div>
                                 </div>

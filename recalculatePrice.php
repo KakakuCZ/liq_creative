@@ -8,6 +8,7 @@ $output = [
     'totalPrice' => $order->getPrice(),
     'inkPrice' => $order->getInkPrice(),
     'labourPrice' => $order->getLabourPrice(),
+    'totalHours' => $order->getHours()
 ];
 
 echo(json_encode($output));
