@@ -48,7 +48,7 @@ class FormManager
 
         foreach($inputs['finishing'] as $key => $finishingOne) {
             if ($finishingOne != 0) {
-                $inputs['finishing'][$key] = $this->database->getProductById($inputs['finishing']);
+                $inputs['finishing'][$key] = $this->database->getProductById($finishingOne);
             } else {
                 $inputs['finishing'][$key] = null;
             }
