@@ -45,19 +45,19 @@ $customers = $formManager->getListOfAllCustomers();
                                     <div class="col-5">
                                         <label>Size</label>
                                     </div>
-                                    <div class="row col">
-                                        <div class="col">
-                                            <input type="number" class="form-control product-select" id="width" placeholder="Width" min="0">
+                                    <div class="col">
+                                        <div>
+                                            <input type="number" class="form-control product-select" id="width" placeholder="Width (mm)" min="0">
                                         </div>
-                                        <div class="col">
-                                            <input type="number" class="form-control product-select" id="length" placeholder="Length" min="0">
+                                        <div>
+                                            <input type="number" class="form-control product-select" id="length" placeholder="Length (mm)" min="0">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Base media (£/m)</label>
+                                        <label>Base media<br>(£/m)</label>
                                     </div>
                                     <div class="col">
                                         <select id="basemedia" class="custom-select product-select">
@@ -65,7 +65,7 @@ $customers = $formManager->getListOfAllCustomers();
                                             <?php
                                             /** @var \Classes\Objects\Product $item */
                                             foreach ($order_parts['base_media']->getItems() as $item) {
-                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '</option>');
+                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . ' [£' . $item->getPriceSell() . ']' . '</option>');
                                             }
                                             ?>
                                         </select>
@@ -74,7 +74,7 @@ $customers = $formManager->getListOfAllCustomers();
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Print media (£/m)</label>
+                                        <label>Print media<br>(£/m)</label>
                                     </div>
                                     <div class="col">
                                         <select id="printmedia" class="custom-select product-select">
@@ -82,7 +82,7 @@ $customers = $formManager->getListOfAllCustomers();
                                             <?php
                                             /** @var \Classes\Objects\Product $item */
                                             foreach ($order_parts['print_media']->getItems() as $item) {
-                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . '</option>');
+                                                echo('<option value="' . $item->getId() . '">' . $item->getName() . ' [£' . $item->getPriceSell() . ']' . '</option>');
                                             }
                                             ?>
                                         </select>
@@ -91,7 +91,7 @@ $customers = $formManager->getListOfAllCustomers();
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Ink (£14.00/m<sup>2</sup>)</label>
+                                        <label>Ink<br>(£14.00/m<sup>2</sup>)</label>
                                     </div>
                                     <div class="col">
                                         <input type="text" value="£0" class="form-control" id="ink" disabled="true">
@@ -100,7 +100,7 @@ $customers = $formManager->getListOfAllCustomers();
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Finishing (£/m)</label>
+                                        <label>Finishing<br>(£/m)</label>
                                     </div>
                                     <div class="col">
                                         <div>
@@ -116,7 +116,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         </div>
                                         <div id="div-finishing-optional">
                                             <select id="finishing-optional" class="custom-select product-select">
-                                                <option value="0" selected>Choose...</option>
+                                                <option value="0" selected>Optional...</option>
                                                 <?php
                                                 /** @var \Classes\Objects\Product $item */
                                                 foreach ($order_parts['finishing']->getItems() as $item) {
@@ -130,17 +130,21 @@ $customers = $formManager->getListOfAllCustomers();
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Labour (£30.00/hr)</label>
+                                        <label>Labour<br>(£30.00/hr)</label>
                                     </div>
                                     <div class="col">
-                                        <input type="text" value="- minutes" class="form-control" id="labour-time" disabled="true">
-                                        <input type="text" value="£0" class="form-control" id="labour" disabled="true">
+                                        <div>
+                                            <input type="text" value="£0" class="form-control" id="labour" disabled="true">
+                                        </div>
+                                        <div>
+                                            <input type="text" value="0 mins" class="form-control" id="labour-time" disabled="true">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
                                 <div class="row">
                                     <div class="col-5">
-                                        <label>Shipping (£10.50)</label>
+                                        <label>Shipping<br>(£10.50)</label>
                                     </div>
                                     <div class="col">
                                         <select id="shipping" class="custom-select product-select">

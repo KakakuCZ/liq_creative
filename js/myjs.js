@@ -42,13 +42,11 @@ function recalculatePrices() {
     });
 }
 
-function enableDisble(val) {
+function enableDisbleSelOption(val) {
     $("#finishing > option").each(function () {
         if (this.value === val || this.value === "0") {
-            //$("#finishing-optional option[value=" + this.value + "]").removeAttr('disabled');
             $("#finishing-optional option[value=" + this.value + "]").show();
         } else {
-            //$("#finishing-optional option[value=" + this.value + "]").attr('disabled', 'disabled');
             $("#finishing-optional option[value=" + this.value + "]").hide();
         }
     });
@@ -61,16 +59,16 @@ function checkOption() {
         divFinishing.slideDown();
         switch (finishing.val()) {
             case "5":
-                enableDisble("20");
+                enableDisbleSelOption("20");
                 break;
             case "20":
-                enableDisble("5");
+                enableDisbleSelOption("5");
                 break;
             case "21":
-                enableDisble("22");
+                enableDisbleSelOption("22");
                 break;
             case "22":
-                enableDisble("21");
+                enableDisbleSelOption("21");
                 break;
         }
     } else {
@@ -79,29 +77,40 @@ function checkOption() {
     $("#finishing-optional").val("0");
 }
 
+/**
+ * @param {HTML IDs} element
+ * @param {Array of key codes} keyCodes
+ * 
+ * Some codes
+ * 38: arrow up
+ * 40: arrow down
+ * 69: letter e
+ */
+function disableKeyDown(element, keyCodes) {
+    $("form").on("keydown", element, function (e) {
+        for (var i = 0; i < keyCodes.length; i++)
+            if (e.which === keyCodes[i])
+                e.preventDefault();
+    });
+}
+
 $(document).ready(function () {
     $("#div-finishing-optional").hide();
     $("#finishing").change(function () {
         checkOption();
     });
 
-    // Disable scroll when focused on a number input.
+    // Disable scroll when focused on the phone number input
     $("form").on("focus", "#phone", function (e) {
-        $(this).on('wheel', function (e) {
+        $(this).on("wheel", function (e) {
             e.preventDefault();
         });
     });
 
-    // Restore scroll on number inputs.
-    $("form").on("blur", "#phone", function (e) {
-        $(this).off('wheel');
-    });
-
-    // Disable up and down keys.
-    $("form").on("keydown", "#phone", function (e) {
-        if (e.which === 38 || e.which === 40)
-            e.preventDefault();
-    });
+    // Disable up, down and e keys
+    disableKeyDown("#phone", [38, 40, 69]);
+    disableKeyDown("#width", [69]);
+    disableKeyDown("#length", [69]);
 
     $('.product-select').change(function () {
         recalculatePrices();
