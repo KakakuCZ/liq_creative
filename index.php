@@ -173,28 +173,28 @@ $customers = $formManager->getListOfAllCustomers();
             <div class="modal fade" id="add-customer-form" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form id="new-customer-form" onsubmit="return checkNewCustomerForm()">
+                        <form id="new-customer-form" method="get" action="createNewUser.php">
                             <div class="modal-header">
                                 <h5 class="modal-title">Add customer</h5>
                             </div>
                             <div class="modal-body">
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="First name" id="first-name">
+                                        <input name="firstname" type="text" class="form-control" placeholder="First name" id="first-name">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Last name" id="last-name">
+                                        <input name="lastname" type="text" class="form-control" placeholder="Last name" id="last-name">
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Email" id="email">
+                                        <input name="email" type="text" class="form-control" placeholder="Email" id="email">
                                         <p id="email-hint" class="form-hint">Email is not valid.</p>
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="number" class="form-control" placeholder="Phone number" id="phone">
+                                        <input name="phone_number" type="number" class="form-control" placeholder="Phone number" id="phone">
                                         <p id="phone-hint" class="form-hint">Phone number is not valid.</p>
                                     </div>
                                 </div>

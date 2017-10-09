@@ -3,11 +3,11 @@ session_start();
 function loadClass($class)
 {
     $parts = explode('\\', $class);
-    $requireString = '.';
+    $requireString = '/..';
     foreach($parts as $part) {
         $requireString .= '/' . $part;
     }
-    require $requireString . '.php';
+    require __DIR__ . $requireString . '.php';
 }
 spl_autoload_register("loadClass");
 

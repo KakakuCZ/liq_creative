@@ -235,4 +235,21 @@ $(document).ready(function () {
     $('.product-select').change(function () {
         recalculatePrices();
     });
+
+    $('#addingUserForm').ajaxForm(function(response) {
+        var customer = JSON.parse(response).customer;
+        $('#customer').append($('<option>', {
+            value: customer.id,
+            text: customer.name,
+        })).val(customer.id);
+
+        $('#add-customer-form').modal('hide');
+
+        $('#first-name').val('');
+        $('#last-name').val('');
+        $('#phone').val('');
+        $('#email').val('');
+
+
+    });
 });

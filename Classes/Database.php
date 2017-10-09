@@ -94,8 +94,23 @@ class Database
 
     public function getAllCustomers()
     {
-        return $this->connection->query('SELECT * FROM `customers` ORDER BY `lastname` DESC')
-            ->fetchAll(PDO::FETCH_CLASS, Customer::class);
+        $customerRows =  $this->connection->query('SELECT * FROM `customers` ORDER BY `lastname` DESC')
+            ->fetchAll();
+
+        $customersArray = [];
+        foreach($customerRows as $customerRow) {
+            $data['id'] = $customerRow['id'];
+            $data['email'] = $customerRow['email'];
+            $data['firstname'] = $customerRow['firstname'];
+            $data['lastname'] = $customerRow['lastname'];
+            $data['phone_number'] = $customerRow['phone_number'];
+
+            array_push($customersArray, new Customer($data));
+
+            unset($data);
+        }
+
+        return $customersArray;
     }
 
     public function getCustomerByEmail($email)
@@ -105,18 +120,29 @@ class Database
                        FROM `customers` 
                        WHERE `email` = ?");
         $query->execute(array($email));
-        $result = $query->fetch(PDO::FETCH_CLASS, Customer::class);
+        $customerRow = $query->fetch();
+        if ($customerRow === false) {
+            return null;
+        }
 
-        return $result;
+        $data['id'] = $customerRow['id'];
+        $data['email'] = $customerRow['email'];
+        $data['firstname'] = $customerRow['firstname'];
+        $data['lastname'] = $customerRow['lastname'];
+        $data['phone_number'] = $customerRow['phone_number'];
+
+        return new Customer($data);
+
     }
 
     public function insertCustomer($data)
     {
         $query = $this->connection->prepare(
             "INSERT INTO `customers`
-                      `firstname`, `lastname`, `phone`, `email`
+                      (`firstname`, `lastname`, `phone_number`, `email`)
                        VALUES(?,?,?,?)");
-        $query->execute($data['firstname'], $data['lastname'], $data['phone'], $data['email']);
+        $query->execute([$data['firstname'], $data['lastname'], $data['phone_number'], $data['email']]);
+        return $this->connection->lastInsertId();
     }
 
 }

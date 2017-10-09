@@ -10,6 +10,7 @@ use Classes\Exceptions\Customers\IncorrectLengthOfCustomersFirstname;
 use Classes\Exceptions\Customers\IncorrectLengthOfCustomersLastname;
 use Classes\Helpers\EmailHelper;
 use Classes\Helpers\StringHelper;
+use Classes\Objects\Customer;
 use Helpers\ConstantHelper;
 use Helpers\PhoneHelper;
 
@@ -39,10 +40,10 @@ class CustomersLogic
         if ($customer) {
             throw new CustomerAlreadyExistsException();
         }
-        if (EmailHelper::isLengthOK($email)) {
+        if (!EmailHelper::isLengthOK($email)) {
             throw new CustomersEmailIsTooLongException();
         }
-        if (EmailHelper::isFormatOK($email)) {
+        if (!EmailHelper::isFormatOK($email)) {
             throw new BadFormatOfCustomersEmailException();
         }
 
@@ -76,5 +77,12 @@ class CustomersLogic
         if (!PhoneHelper::isFormatOK($phoneNumber)) {
             throw new IncorrectFormatOfCustomersPhone();
         }
+    }
+
+    public function insertCustomer($customerData) {
+        $lastId = $this->database->insertCustomer($customerData);
+
+        $customerData['id'] = $lastId;
+        return new Customer($customerData);
     }
 }
