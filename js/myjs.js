@@ -192,10 +192,6 @@ function isEmailValid(email) {
 function checkPhoneNumber(number) {
     var phoneNumberRegex = /^\+?([0-9]{1,3})\)?[-. ]?([0-9]{9,11})$/;
     return phoneNumberRegex.test(number);
-    /*if ((number.length >= 9 && number.length <= 20))
-     return true;
-     else
-     return false;*/
 }
 
 function changeOptionalText(check, change) {
