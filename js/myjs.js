@@ -26,7 +26,7 @@ function recalculatePrices() {
         'baseMedia': $(baseMediaInput).val(),
         'printMedia': $(printMediaInput).val(),
         'finishing': finishingTot,
-        'shipping': $(shippingInput).val(),
+        'shipping': $(shippingInput).val()
     };
     $.ajax({
         dataType: "json",
@@ -94,10 +94,130 @@ function disableKeyDown(element, keyCodes) {
     });
 }
 
+function checkOrderForm() {
+    var inputs = [];
+    var isOk = true;
+    var borderOk = "1px solid rgba(0, 0, 0, 0.15)";
+    var borderNotOk = "1px solid rgba(255, 0, 0, 0.75)";
+    $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional").each(function (i, e) {
+        inputs.push($(e));
+    });
+    if (inputs[3].val() === "0" && inputs[4].val() === "0") {
+        isOk = false;
+        inputs[3].css("border", borderNotOk);
+        inputs[4].css("border", borderNotOk);
+    } else {
+        isOk = true;
+        inputs[3].css("border", borderOk);
+        inputs[4].css("border", borderOk);
+    }
+    for (var i = 0; i < inputs.length; i++)
+        if (i !== 3 && i !== 4)
+            if (inputs[i].val() === "" || inputs[i].val() === "0") {
+                isOk = false;
+                inputs[i].css("border", borderNotOk);
+            } else
+                inputs[i].css("border", borderOk);
+    return isOk;
+}
+
+function checkNewCustomerForm() {
+    var inputs = [];
+    var isOk = true;
+    var borderOk = "1px solid rgba(0, 0, 0, 0.15)";
+    var borderNotOk = "1px solid rgba(255, 0, 0, 0.75)";
+    $("#new-customer-form :input").not(":input[type=button], :input[type=submit]").each(function (i, e) {
+        inputs.push($(e));
+    });
+    for (var i = 0; i < inputs.length; i++)
+        if (inputs[i].val() === "") {
+            isOk = false;
+            inputs[i].css("border", borderNotOk);
+            if (inputs[i].attr("id") === "email")
+                $("#email-hint").slideUp();
+            if (inputs[i].attr("id") === "phone")
+                $("#phone-hint").slideUp();
+        } else {
+            inputs[i].css("border", borderOk);
+            if (inputs[i].attr("id") === "phone")
+                if (!checkPhoneNumber(inputs[i].val())) {
+                    isOk = false;
+                    inputs[i].css("border", borderNotOk);
+                    $("#phone-hint").slideDown();
+                } else
+                    $("#phone-hint").slideUp();
+            if (inputs[i].attr("id") === "email")
+                if (!(isEmailValid(inputs[i].val()))) {
+                    isOk = false;
+                    inputs[i].css("border", borderNotOk);
+                    $("#email-hint").slideDown();
+                } else
+                    $("#email-hint").slideUp();
+        }
+    return isOk;
+}
+
+function singleCheck(input) {
+    var borderOk = "1px solid rgba(0, 0, 0, 0.15)";
+    if (input.val() !== "0" || input.val() !== "") {
+        switch (input.attr("id")) {
+            case "basemedia":
+                input.css("border", borderOk);
+                $("#printmedia").css("border", borderOk);
+                break;
+            case "printmedia":
+                input.css("border", borderOk);
+                $("#basemedia").css("border", borderOk);
+                break;
+            case "phone":
+                if (checkPhoneNumber(input.val()))
+                    input.css("border", borderOk);
+                break;
+            case "email":
+                if (isEmailValid(input.val()))
+                    input.css("border", borderOk);
+                break;
+            default:
+                input.css("border", borderOk);
+                break;
+        }
+    }
+}
+
+function isEmailValid(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+}
+
+function checkPhoneNumber(number) {
+    if ((number.length >= 9 && number.length <= 20))
+        return true;
+    else
+        return false;
+}
+
+function changeOptionalText(check, change) {
+    if ($(check).val() !== "0")
+        $(change + " option[value='0']").html("Optional...");
+    else
+        $(change + " option[value='0']").html("Choose...");
+}
+
 $(document).ready(function () {
-    $("#div-finishing-optional").hide();
     $("#finishing").change(function () {
         checkOption();
+    });
+
+    $("#basemedia").change(function () {
+        changeOptionalText("#basemedia", "#printmedia");
+    });
+
+    $("#printmedia").change(function () {
+        changeOptionalText("#printmedia", "#basemedia");
+    });
+
+    $("form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional").change(function () {
+        singleCheck($(this));
     });
 
     // Disable scroll when focused on the phone number input
