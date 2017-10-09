@@ -19,11 +19,11 @@ class CustomersManager
 
     public function createNewUser($data)
     {
-        $this->userLogic->validateEmail($data['email']);
-        $this->userLogic->validateFirstname($data['firstname']);
-        $this->userLogic->validateLastname($data['lastname']);
-        $this->userLogic->validatePhone($data['phone']);
+//        $this->userLogic->validateEmail($data['email']);
+//        $this->userLogic->validateFirstname($data['firstname']);
+//        $this->userLogic->validateLastname($data['lastname']);
+        //$this->userLogic->validatePhone($data['phone']);
 
-        $this->userLogic->insertCustomer($data);
+        return $this->userLogic->insertCustomer($data);
     }
 }

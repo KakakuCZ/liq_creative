@@ -173,27 +173,27 @@ $customers = $formManager->getListOfAllCustomers();
             <div class="modal fade" id="add-customer-form" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form>
+                        <form id="addingUserForm" method="get" action="createNewUser.php">
                             <div class="modal-header">
                                 <h5 class="modal-title">Add customer</h5>
                             </div>
                             <div class="modal-body">
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="First name" id="first-name">
+                                        <input name="firstname" type="text" class="form-control" placeholder="First name" id="first-name">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Last name" id="last-name">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col">
-                                        <input type="email" class="form-control" placeholder="Email" id="email">
+                                        <input name="lastname" type="text" class="form-control" placeholder="Last name" id="last-name">
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="number" class="form-control" placeholder="Phone number" id="phone">
+                                        <input name="email" type="email" class="form-control" placeholder="Email" id="email">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col">
+                                        <input name="phone_number" type="number" class="form-control" placeholder="Phone number" id="phone">
                                     </div>
                                 </div>
                             </div>
