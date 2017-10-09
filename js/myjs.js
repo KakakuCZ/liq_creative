@@ -185,15 +185,17 @@ function singleCheck(input) {
 }
 
 function isEmailValid(email) {
-    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(email);
+    var emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return emailRegex.test(email);
 }
 
 function checkPhoneNumber(number) {
-    if ((number.length >= 9 && number.length <= 20))
-        return true;
-    else
-        return false;
+    var phoneNumberRegex = /^\+?([0-9]{1,3})\)?[-. ]?([0-9]{9,11})$/;
+    return phoneNumberRegex.test(number);
+    /*if ((number.length >= 9 && number.length <= 20))
+     return true;
+     else
+     return false;*/
 }
 
 function changeOptionalText(check, change) {
@@ -238,10 +240,10 @@ $(document).ready(function () {
 
 
     $('#add-customer-form').ajaxForm({
-        beforeSubmit: function(){
+        beforeSubmit: function () {
             return checkNewCustomerForm()
         },
-        success: function(response){
+        success: function (response) {
             var customer = JSON.parse(response).customer;
             $('#customer').append($('<option>', {
                 value: customer.id,
