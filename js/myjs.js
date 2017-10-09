@@ -236,20 +236,24 @@ $(document).ready(function () {
         recalculatePrices();
     });
 
-    $('#addingUserForm').ajaxForm(function(response) {
-        var customer = JSON.parse(response).customer;
-        $('#customer').append($('<option>', {
-            value: customer.id,
-            text: customer.name,
-        })).val(customer.id);
 
-        $('#add-customer-form').modal('hide');
+    $('#add-customer-form').ajaxForm({
+        beforeSubmit: function(){
+            return checkNewCustomerForm()
+        },
+        success: function(response){
+            var customer = JSON.parse(response).customer;
+            $('#customer').append($('<option>', {
+                value: customer.id,
+                text: customer.name,
+            })).val(customer.id);
 
-        $('#first-name').val('');
-        $('#last-name').val('');
-        $('#phone').val('');
-        $('#email').val('');
+            $('#first-name').val('');
+            $('#last-name').val('');
+            $('#phone').val('');
+            $('#email').val('');
 
-
+            $('#add-customer-form').modal('hide');
+        }
     });
 });
