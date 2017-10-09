@@ -35,6 +35,17 @@
     margin-top: 3px;
 }
 
+#div-finishing-optional {
+    display: none;
+}
+
+.form-hint {
+    margin: 0 0 -7px 0;
+    color: rgba(225, 50, 75, 0.75);
+    font-size: 0.75em;
+    display: none;
+}
+
 @media only screen and (min-width: 1200px) {
     #customer {
         width: 80%;
