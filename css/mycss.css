@@ -1,15 +1,22 @@
-#add-customer-icon {
+#add-customer-icon,
+#review-icon {
     font-size: 1.7em !important;
 }
 
-#menu-button {
+#menu-button,
+#review-button {
     float: right;
     margin-bottom: 3px;
     margin-top: 3px;
+    margin-left: 6px;
+}
+
+#review-button {
+    padding: 0.25em 0.25em 0.09em 0.25em;
 }
 
 #add-customer {
-    padding: 0.25em 0.25em 0 0.25em;
+    padding: 0.25em 0.25em 0.05em 0.25em;
     float: right;
     max-height: 37px;
     max-width: 37px;

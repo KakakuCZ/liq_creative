@@ -16,6 +16,7 @@ $customers = $formManager->getListOfAllCustomers();
             <div class="row justify-content-end">
                 <div class="col">
                     <a class="btn btn-primary" data-toggle="collapse" href="#menu" id="menu-button">Order</a>
+                    <a class="btn btn-success" href="viewAllOrders.php" id="review-button"><i class="material-icons" id="review-icon">assignment</i></a>
                 </div>
             </div>
             <div class="row justify-content-end">
@@ -94,7 +95,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         <label>Ink<br>(£14.00/m<sup>2</sup>)</label>
                                     </div>
                                     <div class="col">
-                                        <input type="text" value="£0" class="form-control" id="ink" disabled="true">
+                                        <input type="text" value="£0.00" class="form-control" id="ink" disabled="true">
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
@@ -134,7 +135,7 @@ $customers = $formManager->getListOfAllCustomers();
                                     </div>
                                     <div class="col">
                                         <div>
-                                            <input type="text" value="£0" class="form-control" id="labour" disabled="true">
+                                            <input type="text" value="£0.00" class="form-control" id="labour" disabled="true">
                                         </div>
                                         <div>
                                             <input type="text" value="0 mins" class="form-control" id="labour-time" disabled="true">
@@ -162,7 +163,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         <button type="button" class="btn btn-block btn-info">Add</button>
                                     </div>
                                     <div class="col">
-                                        <input type="text" value="£0" class="form-control" id="total-price" disabled="true">
+                                        <input type="text" value="£0.00" class="form-control" id="total-price" disabled="true">
                                     </div>
                                 </div>
                             </form>
