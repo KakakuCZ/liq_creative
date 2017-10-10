@@ -194,7 +194,7 @@ $customers = $formManager->getListOfAllCustomers();
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input name="phone_number" type="number" class="form-control" placeholder="Phone number" id="phone">
+                                        <input name="phone_number" type="text" class="form-control" placeholder="Phone number" id="phone">
                                         <p id="phone-hint" class="form-hint">Phone number is not valid.</p>
                                     </div>
                                 </div>
