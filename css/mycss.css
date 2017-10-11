@@ -1,41 +1,25 @@
-#add-customer-icon {
-    font-size: 1.7em !important;
-}
-
-#menu-button {
-    float: right;
-    margin-bottom: 3px;
-    margin-top: 3px;
-}
-
-#add-customer {
-    padding: 0.25em 0.25em 0 0.25em;
-    float: right;
-    max-height: 37px;
-    max-width: 37px;
-}
-
-#phone::-webkit-inner-spin-button, 
-#phone::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
-}
-
 #basemedia,
 #printmedia,
 #finishing,
 #finishing-optional,
-#shipping {
+#shipping,
+#customer,
+#options-select {
     width: 110%;
 }
 
 #div-finishing-optional,
 #labour-time,
-#length {
+#length, 
+#rev-labour-time,
+#rev-finishing-opt {
     margin-top: 3px;
 }
 
-#div-finishing-optional {
+#div-finishing-optional,
+#options,
+#new-order-screen,
+#view-orders {
     display: none;
 }
 
@@ -46,39 +30,6 @@
     display: none;
 }
 
-@media only screen and (min-width: 1200px) {
-    #customer {
-        width: 80%;
-    }
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    #customer {
-        width: 75%;
-    }
-}
-
-
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    #customer {
-        width: 85%;
-    }
-}
-
-@media only screen and (min-width: 441px) and (max-width: 767px) {
-    #customer {
-        width: 80%;
-    }
-}
-
-@media only screen and (min-width: 360px) and (max-width: 440px) {
-    #customer {
-        width: 75%;
-    }
-}
-
-@media only screen and (max-width: 359px) {
-    #customer {
-        width: 65%;
-    }
+#menu {
+    margin-top: 5px;
 }

@@ -281,9 +281,13 @@ class Order
             if ($finishing == null) {
                 continue;
             }
-            $totPriceFinishing += $finishing->getPriceSell() * ($this->roleMetres + 0.25);
+            if ($finishing->getName() == 'Banner Eyelet Set (SPW)') {
+                $totPriceFinishing += $this->getNumberOfEyelet() * $finishing->getPriceSell();
+                continue;
+            }
+            $totPriceFinishing += $finishing->getPriceSell() * ($this->roleMetres + 0.25);  
         }
-         return $totPriceFinishing;
+        return $totPriceFinishing;
     }
 
     public function getLabourPrice(): float
@@ -343,8 +347,7 @@ class Order
             }
 
             if ($finishing->getName() == 'Banner Eyelet Set (SPW)') {
-                //TODO: make logic for counting eyelet
-                $countOfEyelet = 4;
+                $countOfEyelet = $this->getNumberOfEyelet();
                 $totalMinutes += $countOfEyelet * 1.5;
             }
         }
@@ -356,4 +359,19 @@ class Order
         //convert in hours
         return $totalMinutes / 60;
     }
+    
+    private function getNumberOfEyelet(): int {
+        $number = 4;
+        $inputs = array($this->length * 100, $this->width * 100);
+        foreach ($inputs as $value) {
+            if ($value >= 120) {
+                $number += ($value / 30) - 2;
+            }
+        }
+        if ($number % 2 != 0) {
+            $number++;
+        }
+        return $number;
+    }
+
 }

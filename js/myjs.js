@@ -185,15 +185,13 @@ function singleCheck(input) {
 }
 
 function isEmailValid(email) {
-    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(email);
+    var emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return emailRegex.test(email);
 }
 
 function checkPhoneNumber(number) {
-    if ((number.length >= 9 && number.length <= 20))
-        return true;
-    else
-        return false;
+    var phoneNumberRegex = /^\+?([0-9]{1,3})\)?[-. ]?([0-9]{9,11})$/;
+    return phoneNumberRegex.test(number);
 }
 
 function changeOptionalText(check, change) {
@@ -203,9 +201,47 @@ function changeOptionalText(check, change) {
         $(change + " option[value='0']").html("Choose...");
 }
 
+function choosedCustomer(customer) {
+    var options = $("#options");
+    if (customer.val() !== "0")
+        if (customer.val() === "new-customer") {
+            $("#add-customer-form").modal("show");
+            customer.val("0");
+            options.slideUp();
+        } else
+            options.slideDown();
+    else
+        options.slideUp();
+}
+
+function choosedOption(option) {
+    if (option.val() !== "0")
+        if (option.val() === "new-order") {
+            $("#view-orders").slideUp("fast", function () {
+                $("#new-order-screen").slideDown();
+            });
+        } else {
+            $("#new-order-screen").slideUp("fast", function () {
+                $("#view-orders").slideDown();
+            });
+        }
+    else {
+        $("#new-order-screen").slideUp();
+        $("#view-orders").slideUp();
+    }
+}
+
 $(document).ready(function () {
     $("#finishing").change(function () {
         checkOption();
+    });
+    
+    $("#customer").change(function () {
+        choosedCustomer($(this));
+    });
+
+    $("#options-select").change(function () {
+        choosedOption($(this));
     });
 
     $("#basemedia").change(function () {
@@ -238,15 +274,15 @@ $(document).ready(function () {
 
 
     $('#add-customer-form').ajaxForm({
-        beforeSubmit: function(){
-            return checkNewCustomerForm()
+        beforeSubmit: function () {
+            return checkNewCustomerForm();
         },
-        success: function(response){
+        success: function (response) {
             var customer = JSON.parse(response).customer;
             $('#customer').append($('<option>', {
                 value: customer.id,
-                text: customer.name,
-            })).val(customer.id);
+                text: customer.name
+            }));
 
             $('#first-name').val('');
             $('#last-name').val('');
