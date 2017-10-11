@@ -1,5 +1,6 @@
 <?php
 namespace Classes;
+use Classes\Exceptions\Customers\CustomerIsntExistException;
 use Classes\Objects\Order;
 
 class FormManager
@@ -23,7 +24,16 @@ class FormManager
     {
         $order = $this->createNewEmptyOrder();
         $inputs = $this->makeObjectsArrayFromInputsArray($inputs);
+
+        if (isset($inputs['customer'])) {
+            $customer = $this->database->getCustomerById($inputs['customer']);
+            if (!$customer) {
+                throw new CustomerIsntExistException();
+            }
+            $inputs['customer'] = $customer;
+        }
         $order->setItems($inputs);
+
         return $order;
     }
 

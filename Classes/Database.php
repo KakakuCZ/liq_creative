@@ -125,14 +125,27 @@ class Database
             return null;
         }
 
-        $data['id'] = $customerRow['id'];
-        $data['email'] = $customerRow['email'];
-        $data['firstname'] = $customerRow['firstname'];
-        $data['lastname'] = $customerRow['lastname'];
-        $data['phone_number'] = $customerRow['phone_number'];
+        $data = $this->makeCustomerRowForArray($customerRow);
 
         return new Customer($data);
 
+    }
+
+    public function getCustomerById($id)
+    {
+        $query = $this->connection->prepare(
+            "SELECT *
+                       FROM `customers` 
+                       WHERE `id` = ?");
+        $query->execute(array($id));
+        $customerRow = $query->fetch();
+        if ($customerRow === false) {
+            return null;
+        }
+
+        $data = $this->makeCustomerRowForArray($customerRow);
+
+        return new Customer($data);
     }
 
     public function insertCustomer($data)
@@ -142,6 +155,42 @@ class Database
                       (`firstname`, `lastname`, `phone_number`, `email`)
                        VALUES(?,?,?,?)");
         $query->execute([$data['firstname'], $data['lastname'], $data['phone_number'], $data['email']]);
+        return $this->connection->lastInsertId();
+    }
+
+    private function makeCustomerRowForArray($customerRow)
+    {
+        $data['id'] = $customerRow['id'];
+        $data['email'] = $customerRow['email'];
+        $data['firstname'] = $customerRow['firstname'];
+        $data['lastname'] = $customerRow['lastname'];
+        $data['phone_number'] = $customerRow['phone_number'];
+
+        return $data;
+    }
+
+
+    /** Order */
+
+    public function insertOrder($data)
+    {
+        $query = $this->connection->prepare(
+            "INSERT INTO `orders`
+                      (`customer_id`, `date`, `size_1`, `size_2`, `shipping`, `total_price`)
+                      VALUES(?,now(),?,?,?,?)");
+        $query->execute([$data['customer_id'], $data['width'], $data['length'], $data['shipping_boolean'], $data['total_price']]);
+
+        return $this->connection->lastInsertId();
+    }
+
+    public function insertProductToOrder($orderId, $productId)
+    {
+        $query = $this->connection->prepare(
+            "INSERT INTO `orders_part`
+                      (`order_id`, `product_id`)
+                      VALUES(?,?)");
+        $query->execute([$orderId, $productId]);
+
         return $this->connection->lastInsertId();
     }
 
