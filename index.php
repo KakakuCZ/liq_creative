@@ -17,13 +17,13 @@ $customers = $formManager->getListOfAllCustomers();
                 <div class="col-md-4">
                     <div id="menu">
                         <div class="card card-body">
-                            <form id="new-order-form" onsubmit="return checkOrderForm()">
+                            <form action="saveOrder.php" method="get" id="new-order-form" onsubmit="return checkOrderForm()">
                                 <div class="row">
                                     <div class="col-5">
                                         <label>Customer</label>
                                     </div>
                                     <div class="col">
-                                        <select id="customer" class="custom-select">
+                                        <select name="customer" id="customer" class="custom-select">
                                             <option value="0" selected>Choose...</option>
                                             <option value="new-customer">Add customer</option>
                                             <option value="null" disabled="true"></option>
@@ -65,10 +65,10 @@ $customers = $formManager->getListOfAllCustomers();
                                         </div>
                                         <div class="col">
                                             <div>
-                                                <input type="number" class="form-control product-select" id="width" placeholder="Width (mm)" min="0">
+                                                <input name="width" type="number" class="form-control product-select" id="width" placeholder="Width (mm)" min="0">
                                             </div>
                                             <div>
-                                                <input type="number" class="form-control product-select" id="length" placeholder="Length (mm)" min="0">
+                                                <input name="length" type="number" class="form-control product-select" id="length" placeholder="Length (mm)" min="0">
                                             </div>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@ $customers = $formManager->getListOfAllCustomers();
                                             <label>Base media<br>(£/m)</label>
                                         </div>
                                         <div class="col">
-                                            <select id="basemedia" class="custom-select product-select">
+                                            <select name="baseMedia" id="basemedia" class="custom-select product-select">
                                                 <option value="0" selected>Choose...</option>
                                                 <?php
                                                 /** @var \Classes\Objects\Product $item */
@@ -95,7 +95,7 @@ $customers = $formManager->getListOfAllCustomers();
                                             <label>Print media<br>(£/m)</label>
                                         </div>
                                         <div class="col">
-                                            <select id="printmedia" class="custom-select product-select">
+                                            <select name="printMedia" id="printmedia" class="custom-select product-select">
                                                 <option value="0" selected>Choose...</option>
                                                 <?php
                                                 /** @var \Classes\Objects\Product $item */
@@ -122,7 +122,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         </div>
                                         <div class="col">
                                             <div>
-                                                <select id="finishing" class="custom-select product-select">
+                                                <select name="finishing[0]" id="finishing" class="custom-select product-select">
                                                     <option value="0" selected>Choose...</option>
                                                     <?php
                                                     /** @var \Classes\Objects\Product $item */
@@ -133,7 +133,7 @@ $customers = $formManager->getListOfAllCustomers();
                                                 </select>
                                             </div>
                                             <div id="div-finishing-optional">
-                                                <select id="finishing-optional" class="custom-select product-select">
+                                                <select name="finishing[1]" id="finishing-optional" class="custom-select product-select">
                                                     <option value="0" selected>Optional...</option>
                                                     <?php
                                                     /** @var \Classes\Objects\Product $item */
@@ -165,7 +165,7 @@ $customers = $formManager->getListOfAllCustomers();
                                             <label>Shipping<br>(£10.50)</label>
                                         </div>
                                         <div class="col">
-                                            <select id="shipping" class="custom-select product-select">
+                                            <select name="shipping" id="shipping" class="custom-select product-select">
                                                 <option value="1">Yes</option>
                                                 <option selected value="2">No</option>
                                             </select>

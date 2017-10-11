@@ -62,10 +62,11 @@ class Order
     /** @var  Product|Null */
     protected $printMedia;
 
-    /** @var  Product|Null */
     protected $finishing;
 
     protected $shipping;
+
+    protected $customer;
 
 
 
@@ -102,7 +103,8 @@ class Order
             'baseMedia',
             'printMedia',
             'finishing',
-            'shipping'
+            'shipping',
+            'customer',
         ];
         foreach ($inputs as $inputName => $inputValue) {
             if (!in_array($inputName, $allowedNames)) {
@@ -111,6 +113,7 @@ class Order
             if (($inputName == 'width' || $inputName == 'length') && $inputValue == '') {
                 continue;
             }
+
             $this->{'set' . ucfirst($inputName)}($inputValue);
         }
 
@@ -143,6 +146,16 @@ class Order
         $this->finishing = $finishing;
     }
 
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    public function getLength()
+    {
+        return $this->length;
+    }
+
     public function setWidth($width) //:int
     {
         //save in metres
@@ -159,6 +172,35 @@ class Order
     {
         $this->shipping = $shipping;
     }
+
+    public function getShipping(): bool
+    {
+        return (bool)$this->shipping;
+    }
+
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer = $customer;
+    }
+
+    public function getBaseMedia(): ?Product
+    {
+        return $this->baseMedia;
+    }
+
+    public function getPrintMedia(): ?Product
+    {
+        return $this->printMedia;
+    }
+
+    public function getFinishing(): ?array
+    {
+        return $this->finishing;
+    }
+
+
+
+
 
     private function countRoleMetres()
     {
@@ -184,7 +226,7 @@ class Order
     }
 
 
-    public function getPrice()
+    public function getTotalPrice()
     {
         $totalPrice = 0;
 
@@ -257,6 +299,15 @@ class Order
     {
         return self::PRICE_SUPPLIER_SHIPING;
     }
+
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
+    }
+
+
+
+
 
     public function getHours()
     {
