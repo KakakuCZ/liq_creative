@@ -42,6 +42,60 @@ function recalculatePrices() {
     });
 }
 
+function loadOrders(customer) {
+    $.ajax({
+        dataType: "json",
+        method: "GET",
+        url: "./getOrders.php",
+        data: {"customerId": customer.val()},
+        success: function (data) {
+            var orders = data.orders;
+            $(orders).each(function (index, order) {
+                $('#options-select').append($('<option>', {
+                    value: order.id,
+                    text: order.date
+                }));
+            });
+        }
+    });
+}
+
+function loadSingleOrder(order) {
+    $.ajax({
+        dataType: "json",
+        method: "GET",
+        url: "./getSpecOrder.php",
+        data: {"orderID": order.val()},
+        success: function (data) {
+            var tmp = data.order;
+            $(tmp).each(function (index, val) {
+                $("#width").val(val.size_1 * 1000);
+                $("#length").val(val.size_2 * 1000);
+                switch (val.type) {
+                    case "1":
+                        $("#basemedia").val(val.product_id);
+                        break;
+                    case "2":
+                        $("#printmedia").val(val.product_id);
+                        break;
+                    case "3":
+                        if ($("#finishing").val() === "0") {
+                            $("#finishing").val(val.product_id);
+                            checkOption();
+                        } else
+                            $("#finishing-optional").val(val.product_id);
+                        break;
+                }
+                if (val.shipping === "1")
+                    $("#shipping").val("1");
+                else
+                    $("#shipping").val("2");
+            });
+            recalculatePrices();
+        }
+    });
+}
+
 function enableDisbleSelOption(val) {
     $("#finishing > option").each(function () {
         if (this.value === val || this.value === "0") {
@@ -102,17 +156,17 @@ function checkOrderForm() {
     $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional").each(function (i, e) {
         inputs.push($(e));
     });
-    if (inputs[3].val() === "0" && inputs[4].val() === "0") {
+    if (inputs[4].val() === "0" && inputs[5].val() === "0") {
         isOk = false;
-        inputs[3].css("border", borderNotOk);
         inputs[4].css("border", borderNotOk);
+        inputs[5].css("border", borderNotOk);
     } else {
         isOk = true;
-        inputs[3].css("border", borderOk);
         inputs[4].css("border", borderOk);
+        inputs[5].css("border", borderOk);
     }
     for (var i = 0; i < inputs.length; i++)
-        if (i !== 3 && i !== 4)
+        if (inputs[i].attr("id") !== "basemedia" && inputs[i].attr("id") !== "printmedia")
             if (inputs[i].val() === "" || inputs[i].val() === "0") {
                 isOk = false;
                 inputs[i].css("border", borderNotOk);
@@ -207,37 +261,70 @@ function choosedCustomer(customer) {
         if (customer.val() === "new-customer") {
             $("#add-customer-form").modal("show");
             customer.val("0");
+            $("#order-screen").slideUp();
             options.slideUp();
-        } else
+            options.val("0");
+        } else {
+            $("#order-screen").slideUp();
+            options.val("0");
             options.slideDown();
-    else
+        }
+    else {
+        $("#order-screen").slideUp();
         options.slideUp();
+        options.val("0");
+    }
 }
 
 function choosedOption(option) {
     if (option.val() !== "0")
         if (option.val() === "new-order") {
-            $("#view-orders").slideUp("fast", function () {
-                $("#new-order-screen").slideDown();
+            $("#order-screen").slideUp(400, function () {
+                clearOrderForm();
+                checkOption();
+                $("#order-screen").slideDown();
             });
         } else {
-            $("#new-order-screen").slideUp("fast", function () {
-                $("#view-orders").slideDown();
+            $("#order-screen").slideUp(400, function () {
+                clearOrderForm();
+                loadSingleOrder(option);
+                $("#order-screen").slideDown();
             });
         }
-    else {
-        $("#new-order-screen").slideUp();
-        $("#view-orders").slideUp();
-    }
+    else
+        $("#order-screen").slideUp();
+}
+
+function clearOptions() {
+    $('#options-select').empty();
+    $('#options-select').append('<option value="0" selected>Choose...</option>');
+    $('#options-select').append('<option value="new-order">New order</option>');
+    $('#options-select').append('<option value="null" disabled="true"></option>');
+}
+
+function clearOrderForm() {
+    $("#width").val("");
+    $("#length").val("");
+    $("#basemedia").val("0");
+    $("#printmedia").val("0");
+    $("#finishing").val("0");
+    $("#finishing-optional").val("0");
+    $("#shipping").val("2");
+    $('#total-price').val("£0.00");
+    $('#ink').val("£0.00");
+    $('#labour').val("£0.00");
+    $('#labour-time').val("0 minutes");
 }
 
 $(document).ready(function () {
     $("#finishing").change(function () {
         checkOption();
     });
-    
+
     $("#customer").change(function () {
         choosedCustomer($(this));
+        clearOptions();
+        loadOrders($(this));
     });
 
     $("#options-select").change(function () {

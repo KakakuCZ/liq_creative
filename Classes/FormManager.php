@@ -72,4 +72,12 @@ class FormManager
 
         return $inputs;
     }
+    
+    public function getOrderBySelectedCustomer($customerId) {
+        return $this->database->getOrdersByCustomer($customerId);
+    }
+    
+    public function getSpecOrder($orderID) {
+        return $this->database->getSpecOrder($orderID);
+    }
 }

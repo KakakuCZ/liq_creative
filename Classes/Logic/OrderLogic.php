@@ -1,4 +1,5 @@
 <?php
+
 namespace Classes\Logic;
 
 use Classes\Database;
@@ -16,19 +17,16 @@ use Classes\Objects\Product;
 use Helpers\ConstantHelper;
 use Helpers\PhoneHelper;
 
-class OrderLogic
-{
-    private static $instance;
+class OrderLogic {
 
+    private static $instance;
     private $database;
 
-    private function __construct()
-    {
+    private function __construct() {
         $this->database = Database::getInstance();
     }
 
-    public static function getInstance()
-    {
+    public static function getInstance() {
         if (self::$instance === null) {
             self::$instance = new OrderLogic();
         }
@@ -36,8 +34,7 @@ class OrderLogic
         return self::$instance;
     }
 
-    public function saveOrder(Order $order)
-    {
+    public function saveOrder(Order $order) {
         $orderData['customer_id'] = $order->getCustomer()->getId();
         $orderData['width'] = $order->getWidth();
         $orderData['length'] = $order->getLength();
@@ -62,10 +59,12 @@ class OrderLogic
         }
 
         /** @var Product $finishing */
-        if ($order->getFinishing() != null) {
-          foreach ($order->getFinishing() as $finishing) {
+        foreach ($order->getFinishing() as $finishing) {
+            if ($finishing === null) {
+                continue;
+            }
             $this->database->insertProductToOrder($orderId, $finishing->getId());
-        }   
         }
     }
+
 }

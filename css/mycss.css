@@ -18,7 +18,7 @@
 
 #div-finishing-optional,
 #options,
-#new-order-screen,
+#order-screen,
 #view-orders {
     display: none;
 }
@@ -32,4 +32,9 @@
 
 #menu {
     margin-top: 5px;
+}
+
+.my-btn-col {
+    padding-right: 7.5px;
+    padding-left: 7.5px;
 }
