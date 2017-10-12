@@ -193,5 +193,21 @@ class Database
 
         return $this->connection->lastInsertId();
     }
+    
+    public function getOrdersByCustomer($customerID) {
+        $query = $this->connection->prepare(
+                "SELECT * "
+                . "FROM orders "
+                . "WHERE customer_id = ?");
+        $query->execute([$customerID]);
+        return $query->fetchAll();
+    }
 
+    public function getSpecOrder($orderID) {
+        $query = $this->connection->prepare("SELECT O.id, O.size_1, O.size_2, O.shipping, O.total_price, OP.product_id, PT.id AS 'type'"
+                . "FROM orders O, orders_part OP, product_list PL, product_types PT "
+                . "WHERE O.id = ? AND OP.order_id = ? AND OP.product_id = PL.id AND PT.id = PL.product_type_id");
+        $query->execute([$orderID, $orderID]);
+        return $query->fetchAll();
+    }
 }
