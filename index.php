@@ -47,17 +47,11 @@ $customers = $formManager->getListOfAllCustomers();
                                                 <option value="0" selected>Choose...</option>
                                                 <option value="new-order">New order</option>
                                                 <option value="null" disabled="true"></option>
-                                                <?php
-                                                /** @var \Classes\Objects\Customer $customer */
-                                                for ($i = 0; $i < 5; $i++) {
-                                                    echo("<option value='" . ($i + 1) . "'>#" . ($i + 1) . " order</option>");
-                                                }
-                                                ?>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="new-order-screen">
+                                <div id="order-screen">
                                     <div class="dropdown-divider"></div>
                                     <div class="row">
                                         <div class="col-5">
@@ -173,93 +167,18 @@ $customers = $formManager->getListOfAllCustomers();
                                     </div>
                                     <div class="dropdown-divider"></div>
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col my-btn-col">
                                             <button type="submit" class="btn btn-block btn-success">Save</button>
                                         </div>
-                                        <div class="col">
+                                        <div class="col my-btn-col">
                                             <button type="button" class="btn btn-block btn-info">Add</button>
                                         </div>
-                                        <div class="col">
+                                        <div class="col my-btn-col">
                                             <input type="text" value="£0.00" class="form-control" id="total-price" disabled="true">
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <div id="view-orders">
-                                <div class="dropdown-divider"></div>
-                                <div class="row">
-                                    <div class="col-5">
-                                        <label>Base media<br>(£/m)</label>
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" value="Something" class="form-control" id="rev-basemedia" disabled="true">
-                                    </div>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="row">
-                                    <div class="col-5">
-                                        <label>Print media<br>(£/m)</label>
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" value="Something" class="form-control" id="rev-printmedia" disabled="true">
-                                    </div>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="row">
-                                    <div class="col-5">
-                                        <label>Ink<br>(£14.00/m<sup>2</sup>)</label>
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" value="£0.00" class="form-control" id="rev-ink" disabled="true">
-                                    </div>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="row">
-                                    <div class="col-5">
-                                        <label>Finishing<br>(£/m)</label>
-                                    </div>
-                                    <div class="col">
-                                        <div>
-                                            <input type="text" value="Something" class="form-control" id="rev-finishing" disabled="true">
-                                        </div>
-                                        <div>
-                                            <input type="text" value="Something" class="form-control" id="rev-finishing-opt" disabled="true">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="row">
-                                    <div class="col-5">
-                                        <label>Labour<br>(£30.00/hr)</label>
-                                    </div>
-                                    <div class="col">
-                                        <div>
-                                            <input type="text" value="£0.00" class="form-control" id="rev-labour" disabled="true">
-                                        </div>
-                                        <div>
-                                            <input type="text" value="0 mins" class="form-control" id="rev-labour-time" disabled="true">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="row">
-                                    <div class="col-5">
-                                        <label>Shipping<br>(£10.50)</label>
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" value="Something" class="form-control" id="rev-shipping" disabled="true">
-                                    </div>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="row">
-                                    <div class="col-5">
-                                        <label>Total price</label>
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" value="£0.00" class="form-control" id="rev-total-price" disabled="true">
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
