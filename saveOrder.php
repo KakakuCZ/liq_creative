@@ -6,3 +6,5 @@ $orderLogic = \Classes\Logic\OrderLogic::getInstance();
 $order = $formManager->createOrderBySelectedOptions($_GET);
 $orderLogic->saveOrder($order);
 
+header("Location: index.php");
+

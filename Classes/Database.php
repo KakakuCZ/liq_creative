@@ -94,7 +94,7 @@ class Database
 
     public function getAllCustomers()
     {
-        $customerRows =  $this->connection->query('SELECT * FROM `customers` ORDER BY `lastname` DESC')
+        $customerRows =  $this->connection->query('SELECT * FROM `customers` ORDER BY `lastname` ASC')
             ->fetchAll();
 
         $customersArray = [];

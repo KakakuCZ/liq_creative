@@ -62,8 +62,10 @@ class OrderLogic
         }
 
         /** @var Product $finishing */
-        foreach ($order->getFinishing() as $finishing) {
+        if ($order->getFinishing() != null) {
+          foreach ($order->getFinishing() as $finishing) {
             $this->database->insertProductToOrder($orderId, $finishing->getId());
+        }   
         }
     }
 }
