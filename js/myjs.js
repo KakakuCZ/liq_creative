@@ -53,7 +53,8 @@ function loadOrders(customer) {
             $(orders).each(function (index, order) {
                 $('#options-select').append($('<option>', {
                     value: order.id,
-                    text: order.date
+                    title: "Order date: " + order.date,
+                    text: "Order #" + order.id
                 }));
             });
         }
@@ -92,6 +93,10 @@ function loadSingleOrder(order) {
                     $("#shipping").val("2");
             });
             recalculatePrices();
+            $("#order-btn").html("Update");
+            $("#new-order-form").attr("action", "updateOrder.php");
+            changeOptionalText("#basemedia", "#printmedia");
+            changeOptionalText("#printmedia", "#basemedia");
         }
     });
 }
@@ -153,17 +158,17 @@ function checkOrderForm() {
     var isOk = true;
     var borderOk = "1px solid rgba(0, 0, 0, 0.15)";
     var borderNotOk = "1px solid rgba(255, 0, 0, 0.75)";
-    $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional").each(function (i, e) {
+    $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional, #options-select").each(function (i, e) {
         inputs.push($(e));
     });
-    if (inputs[4].val() === "0" && inputs[5].val() === "0") {
+    if (inputs[3].val() === "0" && inputs[4].val() === "0") {
         isOk = false;
+        inputs[3].css("border", borderNotOk);
         inputs[4].css("border", borderNotOk);
-        inputs[5].css("border", borderNotOk);
     } else {
         isOk = true;
+        inputs[3].css("border", borderOk);
         inputs[4].css("border", borderOk);
-        inputs[5].css("border", borderOk);
     }
     for (var i = 0; i < inputs.length; i++)
         if (inputs[i].attr("id") !== "basemedia" && inputs[i].attr("id") !== "printmedia")
@@ -280,6 +285,8 @@ function choosedOption(option) {
     if (option.val() !== "0")
         if (option.val() === "new-order") {
             $("#order-screen").slideUp(400, function () {
+                $("#order-btn").html("Save");
+                $("#new-order-form").attr("action", "saveOrder.php");
                 clearOrderForm();
                 checkOption();
                 $("#order-screen").slideDown();
@@ -288,6 +295,9 @@ function choosedOption(option) {
             $("#order-screen").slideUp(400, function () {
                 clearOrderForm();
                 loadSingleOrder(option);
+                $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional, #options-select").each(function (i, e) {
+                    $(e).css("border", "1px solid rgba(0, 0, 0, 0.15)");
+                });
                 $("#order-screen").slideDown();
             });
         }
@@ -314,6 +324,8 @@ function clearOrderForm() {
     $('#ink').val("£0.00");
     $('#labour').val("£0.00");
     $('#labour-time').val("0 minutes");
+    changeOptionalText("#basemedia", "#printmedia");
+    changeOptionalText("#printmedia", "#basemedia");
 }
 
 $(document).ready(function () {
@@ -358,7 +370,6 @@ $(document).ready(function () {
     $('.product-select').change(function () {
         recalculatePrices();
     });
-
 
     $('#add-customer-form').ajaxForm({
         beforeSubmit: function () {

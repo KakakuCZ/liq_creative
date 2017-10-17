@@ -48,8 +48,6 @@ class OrderLogic {
         $orderData['total_price'] = $order->getTotalPrice();
         $orderId = $this->database->insertOrder($orderData);
 
-        $productTypes = ['baseMedia', 'printMedia', 'finishing'];
-
         if ($order->getBaseMedia() !== null) {
             $this->database->insertProductToOrder($orderId, $order->getBaseMedia()->getId());
         }
@@ -64,6 +62,32 @@ class OrderLogic {
                 continue;
             }
             $this->database->insertProductToOrder($orderId, $finishing->getId());
+        }
+    }
+
+    public function updateOrder(Order $order, $orderID) {
+        $orderData['customer_id'] = $order->getCustomer()->getId();
+        $orderData['width'] = $order->getWidth();
+        $orderData['length'] = $order->getLength();
+        if ($order->getShipping() === TRUE) {
+            $orderData['shipping_boolean'] = 1;
+        } else {
+            $orderData['shipping_boolean'] = 0;
+        }
+        $orderData['total_price'] = $order->getTotalPrice();
+        $this->database->updateOrderByID($orderData, $orderID);
+        if ($order->getBaseMedia() !== null) {
+            $this->database->updateProductsByID($orderID, $order->getBaseMedia()->getId(), "base media");
+        }
+        if ($order->getPrintMedia() !== null) {
+            $this->database->updateProductsByID($orderID, $order->getPrintMedia()->getId(), "print media");
+        }
+        /** @var Product $finishing */
+        foreach ($order->getFinishing() as $finishing) {
+            if ($finishing === null) {
+                continue;
+            }
+            $this->database->updateProductsByID($orderID, $finishing->getId(), "finishing");
         }
     }
 

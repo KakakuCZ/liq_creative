@@ -43,7 +43,7 @@ $customers = $formManager->getListOfAllCustomers();
                                             <label>Options</label>
                                         </div>
                                         <div class="col">
-                                            <select id="options-select" class="custom-select">
+                                            <select name="options-select" id="options-select" class="custom-select">
                                                 <option value="0" selected>Choose...</option>
                                                 <option value="new-order">New order</option>
                                                 <option value="null" disabled="true"></option>
@@ -168,7 +168,7 @@ $customers = $formManager->getListOfAllCustomers();
                                     <div class="dropdown-divider"></div>
                                     <div class="row">
                                         <div class="col my-btn-col">
-                                            <button type="submit" class="btn btn-block btn-success">Save</button>
+                                            <button type="submit" class="btn btn-block btn-success" id="order-btn">Save</button>
                                         </div>
                                         <div class="col my-btn-col">
                                             <button type="button" class="btn btn-block btn-info">Add</button>
