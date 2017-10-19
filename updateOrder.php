@@ -9,4 +9,4 @@ $orderID = $allGet["options-select"];
 unset($allGet["options-select"]);
 $order = $formManager->createOrderBySelectedOptions($allGet);
 $orderLogic->updateOrder($order, $orderID);
-//header("Location: index.php");
+header("Location: index.php");

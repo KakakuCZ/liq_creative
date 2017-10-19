@@ -55,6 +55,17 @@ $customers = $formManager->getListOfAllCustomers();
                                     <div class="dropdown-divider"></div>
                                     <div class="row">
                                         <div class="col-5">
+                                            <label>Order name</label>
+                                        </div>
+                                        <div class="col">
+                                            <div>
+                                                <input name="orderName" type="text" class="form-control" id="order-name" placeholder="Name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="row">
+                                        <div class="col-5">
                                             <label>Size</label>
                                         </div>
                                         <div class="col">

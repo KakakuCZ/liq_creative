@@ -53,8 +53,7 @@ function loadOrders(customer) {
             $(orders).each(function (index, order) {
                 $('#options-select').append($('<option>', {
                     value: order.id,
-                    title: "Order date: " + order.date,
-                    text: "Order #" + order.id
+                    text: order.name + ", " + order.date
                 }));
             });
         }
@@ -69,7 +68,9 @@ function loadSingleOrder(order) {
         data: {"orderID": order.val()},
         success: function (data) {
             var tmp = data.order;
+            console.log(tmp);
             $(tmp).each(function (index, val) {
+                $("#order-name").val(val.name);
                 $("#width").val(val.size_1 * 1000);
                 $("#length").val(val.size_2 * 1000);
                 switch (val.type) {
@@ -161,14 +162,14 @@ function checkOrderForm() {
     $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional, #options-select").each(function (i, e) {
         inputs.push($(e));
     });
-    if (inputs[3].val() === "0" && inputs[4].val() === "0") {
+    if (inputs[4].val() === "0" && inputs[5].val() === "0") {
         isOk = false;
-        inputs[3].css("border", borderNotOk);
         inputs[4].css("border", borderNotOk);
+        inputs[5].css("border", borderNotOk);
     } else {
         isOk = true;
-        inputs[3].css("border", borderOk);
         inputs[4].css("border", borderOk);
+        inputs[5].css("border", borderOk);
     }
     for (var i = 0; i < inputs.length; i++)
         if (inputs[i].attr("id") !== "basemedia" && inputs[i].attr("id") !== "printmedia")
@@ -313,6 +314,7 @@ function clearOptions() {
 }
 
 function clearOrderForm() {
+    $("#order-name").val("");
     $("#width").val("");
     $("#length").val("");
     $("#basemedia").val("0");

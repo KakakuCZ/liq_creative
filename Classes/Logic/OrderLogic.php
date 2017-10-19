@@ -36,6 +36,7 @@ class OrderLogic {
 
     public function saveOrder(Order $order) {
         $orderData['customer_id'] = $order->getCustomer()->getId();
+        $orderData['order_name'] = $order->getOrderName();
         $orderData['width'] = $order->getWidth();
         $orderData['length'] = $order->getLength();
 
@@ -67,6 +68,7 @@ class OrderLogic {
 
     public function updateOrder(Order $order, $orderID) {
         $orderData['customer_id'] = $order->getCustomer()->getId();
+        $orderData['order_name'] = $order->getOrderName();
         $orderData['width'] = $order->getWidth();
         $orderData['length'] = $order->getLength();
         if ($order->getShipping() === TRUE) {
@@ -78,16 +80,21 @@ class OrderLogic {
         $this->database->updateOrderByID($orderData, $orderID);
         if ($order->getBaseMedia() !== null) {
             $this->database->updateProductsByID($orderID, $order->getBaseMedia()->getId(), "base media");
+        } else {
+            $this->database->deleteOrder($orderID, "base media");
         }
         if ($order->getPrintMedia() !== null) {
             $this->database->updateProductsByID($orderID, $order->getPrintMedia()->getId(), "print media");
+        } else {
+            $this->database->deleteOrder($orderID, "print media");
         }
         /** @var Product $finishing */
         foreach ($order->getFinishing() as $finishing) {
-            if ($finishing === null) {
-                continue;
+            if ($finishing !== null) {
+                $this->database->updateProductsByID($orderID, $finishing->getId(), "finishing");
+            } else {
+                
             }
-            $this->database->updateProductsByID($orderID, $finishing->getId(), "finishing");
         }
     }
 

@@ -159,9 +159,9 @@ class Database {
     public function insertOrder($data) {
         $query = $this->connection->prepare(
                 "INSERT INTO `orders`
-                      (`customer_id`, `date`, `size_1`, `size_2`, `shipping`, `total_price`)
-                      VALUES(?,now(),?,?,?,?)");
-        $query->execute([$data['customer_id'], $data['width'], $data['length'], $data['shipping_boolean'], $data['total_price']]);
+                      (`customer_id`, `name`, `date`, `size_1`, `size_2`, `shipping`, `total_price`)
+                      VALUES(?, ?, now(), ?, ?, ?, ?)");
+        $query->execute([$data['customer_id'], $data['order_name'], $data['width'], $data['length'], $data['shipping_boolean'], $data['total_price']]);
 
         return $this->connection->lastInsertId();
     }
@@ -186,7 +186,7 @@ class Database {
     }
 
     public function getSpecOrder($orderID) {
-        $query = $this->connection->prepare("SELECT O.id, O.size_1, O.size_2, O.shipping, O.total_price, OP.product_id, PT.id AS 'type'"
+        $query = $this->connection->prepare("SELECT O.id, O.name, O.size_1, O.size_2, O.shipping, O.total_price, OP.product_id, PT.id AS 'type'"
                 . "FROM orders O, orders_part OP, product_list PL, product_types PT "
                 . "WHERE O.id = ? AND OP.order_id = ? AND OP.product_id = PL.id AND PT.id = PL.product_type_id");
         $query->execute([$orderID, $orderID]);
@@ -196,19 +196,25 @@ class Database {
     public function updateOrderByID($data, $orderID) {
         $query = $this->connection->prepare(
                 "UPDATE orders "
-                . "SET size_1 = ?, size_2 = ?, shipping = ?, total_price = ? "
+                . "SET name = ?, size_1 = ?, size_2 = ?, shipping = ?, total_price = ? "
                 . "WHERE id = ?");
-        $query->execute([$data["width"], $data["length"], $data["shipping_boolean"], $data["total_price"], $orderID]);
+        $query->execute([$data["order_name"], $data["width"], $data["length"], $data["shipping_boolean"], $data["total_price"], $orderID]);
     }
 
     public function updateProductsByID($orderID, $productID, $type) {
         $oldOrderProducts = $this->selectOldProduct($type, $orderID);
         if ($type !== "finishing") {
-            $query = $this->connection->prepare(
-                    "UPDATE orders_part "
-                    . "SET product_id = ? "
-                    . "WHERE id = ? AND order_id = ?");
-            $query->execute([$productID, $oldOrderProducts[0]["id"], $orderID]);
+            if (empty($oldOrderProducts)) {
+                $this->insertProductToOrder($orderID, $productID);
+            } else {
+                $query = $this->connection->prepare(
+                        "UPDATE orders_part "
+                        . "SET product_id = ? "
+                        . "WHERE id = ? AND order_id = ?");
+                $query->execute([$productID, $oldOrderProducts[0]["id"], $orderID]);
+            }
+        } else {
+            
         }
     }
 
@@ -219,6 +225,19 @@ class Database {
                 . "WHERE OP.product_id = PL.id AND PL.product_type_id = PT.id ANd PT.name = ? AND OP.order_id = ?");
         $query->execute([$type, $orderID]);
         return $query->fetchAll();
+    }
+
+    public function deleteOrder($orderID, $type) {
+        $oldOrderProducts = $this->selectOldProduct($type, $orderID);
+        if ($type !== "finishing") {
+            $query = $this->connection->prepare(
+                    "DELETE "
+                    . "FROM orders_part "
+                    . "WHERE id = ?");
+            $query->execute([$oldOrderProducts[0]["id"]]);
+        } else {
+            
+        }
     }
 
 }

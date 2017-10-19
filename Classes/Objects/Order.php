@@ -54,8 +54,8 @@ class Order
     protected $squareMetres; //in m2
     protected $roleMetres;
 
-
-
+    protected $orderName;
+    
     /** @var  Product|Null */
     protected $baseMedia;
 
@@ -98,6 +98,7 @@ class Order
     public function setItems(array $inputs)
     {
         $allowedNames = [
+            'orderName',
             'width',
             'length',
             'baseMedia',
@@ -130,7 +131,14 @@ class Order
         $this->initilized = $value;
     }
 
-
+    public function setOrderName($orderName) {
+        $this->orderName = $orderName;
+    }
+    
+    public function getOrderName() {
+        return $this->orderName;
+    }
+    
     public function setBaseMedia(?Product $baseMedia)
     {
         $this->baseMedia = $baseMedia;
