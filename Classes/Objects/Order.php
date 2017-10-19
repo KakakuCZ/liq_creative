@@ -1,81 +1,63 @@
 <?php
+
 namespace Classes\Objects;
 
 use Classes\Exceptions\Forms\InvalidSizeException;
 
-class Order
-{
+class Order {
+
     const PRICE_SUPPLIER_SHIPING = 10.50;
     const PRICE_INK = 14.00; //per square meter
     const PRICE_LABOUR = 30.00; //per hour
 
     /** Time cost in minutes */
-
     //Small is < 1,5m2
     const TIME_COST_SMALL = [
-      'application' => 5,
-      'timming' => 4,
-      'eyelet' => 1.5
+        'application' => 5,
+        'timming' => 4,
+        'eyelet' => 1.5
     ];
-
     //Medium is 1.5m2 - 3m2
     const TIME_COST_MEDIUM = [
-      'application' => 10,
-      'timming' => 6,
-      'eyelet' => 1.5
+        'application' => 10,
+        'timming' => 6,
+        'eyelet' => 1.5
     ];
-
     //Large is > 3m2
     const TIME_COST_LARGE = [
         'application' => 15,
         'timming' => 8,
         'eyelet' => 1.5,
     ];
-
-
-
-
     const ROLE_WIDTH = 1220 / 1000; //In metres
 
     protected $initilized = false;
 
     /** Base structure */
-
     protected $fullArray;
-
     protected $parts;
 
-
     /** Concrete parts */
-
     protected $width; //in metres
     protected $length; //in metres
-
     protected $squareMetres; //in m2
     protected $roleMetres;
-
     protected $orderName;
-    
+
     /** @var  Product|Null */
     protected $baseMedia;
 
     /** @var  Product|Null */
     protected $printMedia;
-
     protected $finishing;
-
     protected $shipping;
-
     protected $customer;
 
-
-
-    public function __construct(array $productTypesWithProducts)
-    {
+    public function __construct(array $productTypesWithProducts) {
         $this->fullArray = $productTypesWithProducts;
         /** @var ProductType $productType */
         foreach ($productTypesWithProducts as $productType) {
-            switch($productType->getName()) {
+            switch ($productType->getName()) {
                 case 'base media':
                     $this->parts['base_media'] = $productType;
                     break;
@@ -89,14 +71,12 @@ class Order
         }
     }
 
-    public function getPartsForForm(): array
-    {
+    public function getPartsForForm(): array {
         return $this->parts;
     }
 
     /** Inputs must be array and base, print media + finish must be object */
-    public function setItems(array $inputs)
-    {
+    public function setItems(array $inputs) {
         $allowedNames = [
             'orderName',
             'width',
@@ -126,92 +106,73 @@ class Order
         }
     }
 
-    protected function setInitialized($value)
-    {
+    protected function setInitialized($value) {
         $this->initilized = $value;
     }
 
     public function setOrderName($orderName) {
         $this->orderName = $orderName;
     }
-    
+
     public function getOrderName() {
         return $this->orderName;
     }
-    
-    public function setBaseMedia(?Product $baseMedia)
-    {
+
+    public function setBaseMedia(?Product $baseMedia) {
         $this->baseMedia = $baseMedia;
     }
 
-    public function setPrintMedia(?Product $printMedia)
-    {
+    public function setPrintMedia(?Product $printMedia) {
         $this->printMedia = $printMedia;
     }
 
-    public function setFinishing(array $finishing)
-    {
+    public function setFinishing(array $finishing) {
         $this->finishing = $finishing;
     }
 
-    public function getWidth()
-    {
+    public function getWidth() {
         return $this->width;
     }
 
-    public function getLength()
-    {
+    public function getLength() {
         return $this->length;
     }
 
-    public function setWidth($width) //:int
-    {
+    public function setWidth($width) { //:int
         //save in metres
         $this->width = $width / 1000;
     }
 
-    public function setLength($length) //:int
-    {
+    public function setLength($length) { //:int
         //save in metres
         $this->length = $length / 1000;
     }
 
-    public function setShipping($shipping) //:bool
-    {
+    public function setShipping($shipping) { //:bool
         $this->shipping = $shipping;
     }
 
-    public function getShipping(): bool
-    {
-        return (bool)$this->shipping;
+    public function getShipping(): bool {
+        return (bool) $this->shipping;
     }
 
-    public function setCustomer(Customer $customer)
-    {
+    public function setCustomer(Customer $customer) {
         $this->customer = $customer;
     }
 
-    public function getBaseMedia(): ?Product
-    {
+    public function getBaseMedia(): ?Product {
         return $this->baseMedia;
     }
 
-    public function getPrintMedia(): ?Product
-    {
+    public function getPrintMedia(): ?Product {
         return $this->printMedia;
     }
 
-    public function getFinishing(): ?array
-    {
+    public function getFinishing(): ?array {
         return $this->finishing;
     }
 
-
-
-
-
-    private function countRoleMetres()
-    {
+    private function countRoleMetres() {
         if ($this->width > self::ROLE_WIDTH && $this->length > self::ROLE_WIDTH) {
             throw new InvalidSizeException();
         }
@@ -233,9 +194,7 @@ class Order
         return $roleMetres;
     }
 
-
-    public function getTotalPrice()
-    {
+    public function getTotalPrice() {
         $totalPrice = 0;
 
         //Base Media
@@ -264,26 +223,22 @@ class Order
             $totalPrice += $this->getShippingPrice();
         }
 
-        return $totalPrice;
+        return round($totalPrice, 2);
     }
 
-    public function getBaseMediaPrice(): float
-    {
+    public function getBaseMediaPrice(): float {
         return $this->baseMedia->getPriceSell() * $this->roleMetres;
     }
 
-    public function getPrintMediaPrice(): float
-    {
+    public function getPrintMediaPrice(): float {
         return $this->printMedia->getPriceSell() * ($this->roleMetres + 0.25);
     }
 
-    public function getInkPrice(): float
-    {
+    public function getInkPrice(): float {
         return self::PRICE_INK * $this->squareMetres;
     }
 
-    public function getFinishingPrice(): float
-    {
+    public function getFinishingPrice(): float {
         $totPriceFinishing = 0;
         foreach ($this->finishing as $finishing) {
             if ($finishing == null) {
@@ -293,32 +248,24 @@ class Order
                 $totPriceFinishing += $this->getNumberOfEyelet() * $finishing->getPriceSell();
                 continue;
             }
-            $totPriceFinishing += $finishing->getPriceSell() * ($this->roleMetres + 0.25);  
+            $totPriceFinishing += $finishing->getPriceSell() * ($this->roleMetres + 0.25);
         }
         return $totPriceFinishing;
     }
 
-    public function getLabourPrice(): float
-    {
+    public function getLabourPrice(): float {
         return $this->getHours() * self::PRICE_LABOUR;
     }
 
-    public function getShippingPrice() :float
-    {
+    public function getShippingPrice(): float {
         return self::PRICE_SUPPLIER_SHIPING;
     }
 
-    public function getCustomer(): Customer
-    {
+    public function getCustomer(): Customer {
         return $this->customer;
     }
 
-
-
-
-
-    public function getHours()
-    {
+    public function getHours() {
         $totalMinutes = 0;
 
         $squareMeters = $this->squareMetres;
@@ -367,7 +314,7 @@ class Order
         //convert in hours
         return $totalMinutes / 60;
     }
-    
+
     private function getNumberOfEyelet(): int {
         $number = 4;
         $inputs = array($this->length * 100, $this->width * 100);
