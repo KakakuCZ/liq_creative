@@ -207,15 +207,46 @@ class Database {
             if (empty($oldOrderProducts)) {
                 $this->insertProductToOrder($orderID, $productID);
             } else {
-                $query = $this->connection->prepare(
-                        "UPDATE orders_part "
-                        . "SET product_id = ? "
-                        . "WHERE id = ? AND order_id = ?");
-                $query->execute([$productID, $oldOrderProducts[0]["id"], $orderID]);
+                $this->updatePartsByIDs($productID, $oldOrderProducts[0]["id"], $orderID);
             }
         } else {
-            
+            $sizeArray = array(sizeof($oldOrderProducts), sizeof($productID));
+            switch ($sizeArray) {
+                case $sizeArray[0] === 1 && $sizeArray[1] === 1:
+                    $this->updatePartsByIDs($productID[0], $oldOrderProducts[0]["id"], $orderID);
+                    break;
+                case $sizeArray[0] === 2 && $sizeArray[1] === 2:
+                    $this->updatePartsByIDs($productID[0], $oldOrderProducts[0]["id"], $orderID);
+                    $this->updatePartsByIDs($productID[1], $oldOrderProducts[1]["id"], $orderID);
+                    break;
+                case $sizeArray[0] === 1 && $sizeArray[1] === 2:
+                    $this->updatePartsByIDs($productID[0], $oldOrderProducts[0]["id"], $orderID);
+                    $this->insertProductToOrder($orderID, $productID[1]);
+                    break;
+                case $sizeArray[0] === 2 && $sizeArray[1] === 1:
+                    $this->updatePartsByIDs($productID[0], $oldOrderProducts[0]["id"], $orderID);
+                    $this->deletePartsByID($oldOrderProducts[1]["id"]);
+                    break;
+                default:
+                    break;
+            }
         }
+    }
+
+    private function deletePartsByID($oldProductID) {
+        $query = $this->connection->prepare(
+                "DELETE "
+                . "FROM orders_part "
+                . "WHERE id = ?");
+        $query->execute([$oldProductID]);
+    }
+
+    private function updatePartsByIDs($productID, $oldProductID, $orderID) {
+        $query = $this->connection->prepare(
+                "UPDATE orders_part "
+                . "SET product_id = ? "
+                . "WHERE id = ? AND order_id = ?");
+        $query->execute([$productID, $oldProductID, $orderID]);
     }
 
     public function selectOldProduct($type, $orderID) {
@@ -235,8 +266,6 @@ class Database {
                     . "FROM orders_part "
                     . "WHERE id = ?");
             $query->execute([$oldOrderProducts[0]["id"]]);
-        } else {
-            
         }
     }
 

@@ -37,8 +37,8 @@ class OrderLogic {
     public function saveOrder(Order $order) {
         $orderData['customer_id'] = $order->getCustomer()->getId();
         $orderData['order_name'] = $order->getOrderName();
-        $orderData['width'] = $order->getWidth();
-        $orderData['length'] = $order->getLength();
+        $orderData['width'] = $order->getWidth() * 1000;
+        $orderData['length'] = $order->getLength() * 1000;
 
         if ($order->getShipping() === TRUE) {
             $orderData['shipping_boolean'] = 1;
@@ -69,8 +69,8 @@ class OrderLogic {
     public function updateOrder(Order $order, $orderID) {
         $orderData['customer_id'] = $order->getCustomer()->getId();
         $orderData['order_name'] = $order->getOrderName();
-        $orderData['width'] = $order->getWidth();
-        $orderData['length'] = $order->getLength();
+        $orderData['width'] = $order->getWidth() * 1000;
+        $orderData['length'] = $order->getLength() * 1000;
         if ($order->getShipping() === TRUE) {
             $orderData['shipping_boolean'] = 1;
         } else {
@@ -91,11 +91,10 @@ class OrderLogic {
         /** @var Product $finishing */
         foreach ($order->getFinishing() as $finishing) {
             if ($finishing !== null) {
-                $this->database->updateProductsByID($orderID, $finishing->getId(), "finishing");
-            } else {
-                
+                $finishingIDs[] = $finishing->getId();
             }
         }
+        $this->database->updateProductsByID($orderID, $finishingIDs, "finishing");
     }
 
 }

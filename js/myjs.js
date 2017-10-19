@@ -71,8 +71,8 @@ function loadSingleOrder(order) {
             console.log(tmp);
             $(tmp).each(function (index, val) {
                 $("#order-name").val(val.name);
-                $("#width").val(val.size_1 * 1000);
-                $("#length").val(val.size_2 * 1000);
+                $("#width").val(val.size_1);
+                $("#length").val(val.size_2);
                 switch (val.type) {
                     case "1":
                         $("#basemedia").val(val.product_id);
