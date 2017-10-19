@@ -53,7 +53,7 @@ function loadOrders(customer) {
             $(orders).each(function (index, order) {
                 $('#options-select').append($('<option>', {
                     value: order.id,
-                    text: order.date
+                    text: order.name + ", " + order.date
                 }));
             });
         }
@@ -68,9 +68,11 @@ function loadSingleOrder(order) {
         data: {"orderID": order.val()},
         success: function (data) {
             var tmp = data.order;
+            console.log(tmp);
             $(tmp).each(function (index, val) {
-                $("#width").val(val.size_1 * 1000);
-                $("#length").val(val.size_2 * 1000);
+                $("#order-name").val(val.name);
+                $("#width").val(val.size_1);
+                $("#length").val(val.size_2);
                 switch (val.type) {
                     case "1":
                         $("#basemedia").val(val.product_id);
@@ -92,6 +94,10 @@ function loadSingleOrder(order) {
                     $("#shipping").val("2");
             });
             recalculatePrices();
+            $("#order-btn").html("Update");
+            $("#new-order-form").attr("action", "updateOrder.php");
+            changeOptionalText("#basemedia", "#printmedia");
+            changeOptionalText("#printmedia", "#basemedia");
         }
     });
 }
@@ -153,7 +159,7 @@ function checkOrderForm() {
     var isOk = true;
     var borderOk = "1px solid rgba(0, 0, 0, 0.15)";
     var borderNotOk = "1px solid rgba(255, 0, 0, 0.75)";
-    $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional").each(function (i, e) {
+    $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional, #options-select").each(function (i, e) {
         inputs.push($(e));
     });
     if (inputs[4].val() === "0" && inputs[5].val() === "0") {
@@ -280,6 +286,8 @@ function choosedOption(option) {
     if (option.val() !== "0")
         if (option.val() === "new-order") {
             $("#order-screen").slideUp(400, function () {
+                $("#order-btn").html("Save");
+                $("#new-order-form").attr("action", "saveOrder.php");
                 clearOrderForm();
                 checkOption();
                 $("#order-screen").slideDown();
@@ -288,6 +296,9 @@ function choosedOption(option) {
             $("#order-screen").slideUp(400, function () {
                 clearOrderForm();
                 loadSingleOrder(option);
+                $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional, #options-select").each(function (i, e) {
+                    $(e).css("border", "1px solid rgba(0, 0, 0, 0.15)");
+                });
                 $("#order-screen").slideDown();
             });
         }
@@ -303,6 +314,7 @@ function clearOptions() {
 }
 
 function clearOrderForm() {
+    $("#order-name").val("");
     $("#width").val("");
     $("#length").val("");
     $("#basemedia").val("0");
@@ -314,6 +326,8 @@ function clearOrderForm() {
     $('#ink').val("£0.00");
     $('#labour').val("£0.00");
     $('#labour-time').val("0 minutes");
+    changeOptionalText("#basemedia", "#printmedia");
+    changeOptionalText("#printmedia", "#basemedia");
 }
 
 $(document).ready(function () {
@@ -358,7 +372,6 @@ $(document).ready(function () {
     $('.product-select').change(function () {
         recalculatePrices();
     });
-
 
     $('#add-customer-form').ajaxForm({
         beforeSubmit: function () {
