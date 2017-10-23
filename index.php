@@ -38,7 +38,7 @@ $customers = $formManager->getListOfAllCustomers();
                                 </div>
                                 <div id="customer-details">
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-2">
                                             <i class="material-icons">phone</i>
                                         </div>
                                         <div class="col justify-content-end customer-details">
@@ -46,7 +46,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-2">
                                             <i class="material-icons">email</i>
                                         </div>
                                         <div class="col justify-content-end customer-details">

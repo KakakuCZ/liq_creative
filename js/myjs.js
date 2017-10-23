@@ -397,9 +397,13 @@ $(document).ready(function () {
     });
 
     // Disable up, down and e keys
-    disableKeyDown("#phone", [38, 40, 69]);
     disableKeyDown("#width", [69]);
     disableKeyDown("#length", [69]);
+
+    $("#phone").keypress(function (evt) {
+        if ((evt.charCode < 48 || evt.charCode > 57) && evt.charCode !== 43 && evt.charCode !== 13)
+            evt.preventDefault();
+    });
 
     $('.product-select').change(function () {
         recalculatePrices();
