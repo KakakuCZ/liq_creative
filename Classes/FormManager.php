@@ -80,4 +80,8 @@ class FormManager
     public function getSpecOrder($orderID) {
         return $this->database->getSpecOrder($orderID);
     }
+    
+    public function getCustomerDetailsByID($customerID) {
+        return $this->database->getCustomerDetailsByID($customerID);
+    }
 }

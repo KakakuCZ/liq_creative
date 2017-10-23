@@ -104,6 +104,15 @@ class Database {
         return $customersArray;
     }
 
+    public function getCustomerDetailsByID($id) {
+        $query = $this->connection->prepare(
+                "SELECT phone_number, email "
+                . "FROM customers "
+                . "WHERE id = ?");
+        $query->execute([$id]);
+        return $query->fetchAll();
+    }
+
     public function getCustomerByEmail($email) {
         $query = $this->connection->prepare(
                 "SELECT *

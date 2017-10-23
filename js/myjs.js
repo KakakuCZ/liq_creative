@@ -60,6 +60,23 @@ function loadOrders(customer) {
     });
 }
 
+function loadCustomerDetails(customer) {
+    $.ajax({
+        dataType: "json",
+        method: "GET",
+        url: "./getCustomerDetails.php",
+        data: {"customerId": customer.val()},
+        success: function (data) {
+            var details = data.details;
+            $(details).each(function (index, data) {
+                $("#customer-phone").html(data.phone_number);
+                $("#customer-email").html(data.email);
+            });
+            $("#customer-details").slideDown();
+        }
+    });
+}
+
 function loadSingleOrder(order) {
     $.ajax({
         dataType: "json",
@@ -68,7 +85,6 @@ function loadSingleOrder(order) {
         data: {"orderID": order.val()},
         success: function (data) {
             var tmp = data.order;
-            console.log(tmp);
             $(tmp).each(function (index, val) {
                 $("#order-name").val(val.name);
                 $("#width").val(val.size_1);
@@ -131,9 +147,8 @@ function checkOption() {
                 enableDisbleSelOption("21");
                 break;
         }
-    } else {
+    } else
         divFinishing.slideUp();
-    }
     $("#finishing-optional").val("0");
 }
 
@@ -157,19 +172,21 @@ function disableKeyDown(element, keyCodes) {
 function checkOrderForm() {
     var inputs = [];
     var isOk = true;
+    var inputBaseMedia = 4;
+    var inputPrintMedia = 5;
     var borderOk = "1px solid rgba(0, 0, 0, 0.15)";
     var borderNotOk = "1px solid rgba(255, 0, 0, 0.75)";
     $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional, #options-select").each(function (i, e) {
         inputs.push($(e));
     });
-    if (inputs[4].val() === "0" && inputs[5].val() === "0") {
+    if (inputs[inputBaseMedia].val() === "0" && inputs[inputPrintMedia].val() === "0") {
         isOk = false;
-        inputs[4].css("border", borderNotOk);
-        inputs[5].css("border", borderNotOk);
+        inputs[inputBaseMedia].css("border", borderNotOk);
+        inputs[inputPrintMedia].css("border", borderNotOk);
     } else {
         isOk = true;
-        inputs[4].css("border", borderOk);
-        inputs[5].css("border", borderOk);
+        inputs[inputBaseMedia].css("border", borderOk);
+        inputs[inputPrintMedia].css("border", borderOk);
     }
     for (var i = 0; i < inputs.length; i++)
         if (inputs[i].attr("id") !== "basemedia" && inputs[i].attr("id") !== "printmedia")
@@ -262,48 +279,54 @@ function changeOptionalText(check, change) {
 }
 
 function choosedCustomer(customer) {
-    var options = $("#options");
     if (customer.val() !== "0")
         if (customer.val() === "new-customer") {
             $("#add-customer-form").modal("show");
             customer.val("0");
-            $("#order-screen").slideUp();
-            options.slideUp();
-            options.val("0");
+            closeAllTabs();
         } else {
-            $("#order-screen").slideUp();
-            options.val("0");
-            options.slideDown();
+            $("#order-screen").slideUp("slow");
+            loadOrders(customer);
+            $("#customer-details").fadeOut(275, function () {
+                loadCustomerDetails(customer);
+            }).fadeIn(275);
+            $("#options").val("0");
+            $("#options").slideDown();
         }
-    else {
-        $("#order-screen").slideUp();
-        options.slideUp();
-        options.val("0");
-    }
+    else
+        closeAllTabs();
+}
+
+function closeAllTabs() {
+    $("#order-screen").slideUp("slow");
+    $("#customer-details").slideUp();
+    $("#options").slideUp();
+    $("#options").val("0");
 }
 
 function choosedOption(option) {
+    var orderScreen = $("#order-screen");
     if (option.val() !== "0")
         if (option.val() === "new-order") {
-            $("#order-screen").slideUp(400, function () {
+            orderScreen.slideUp(400, function () {
                 $("#order-btn").html("Save");
                 $("#new-order-form").attr("action", "saveOrder.php");
                 clearOrderForm();
                 checkOption();
-                $("#order-screen").slideDown();
+                orderScreen.slideDown("slow");
             });
         } else {
-            $("#order-screen").slideUp(400, function () {
+            orderScreen.slideUp(400, function () {
                 clearOrderForm();
                 loadSingleOrder(option);
                 $("#new-order-form :input").not(":input[type=button], :input[type=submit], :input:disabled, #finishing-optional, #options-select").each(function (i, e) {
                     $(e).css("border", "1px solid rgba(0, 0, 0, 0.15)");
                 });
-                $("#order-screen").slideDown();
+                orderScreen.slideDown("slow");
             });
         }
     else
-        $("#order-screen").slideUp();
+        orderScreen.slideUp("slow");
 }
 
 function clearOptions() {
@@ -338,7 +361,6 @@ $(document).ready(function () {
     $("#customer").change(function () {
         choosedCustomer($(this));
         clearOptions();
-        loadOrders($(this));
     });
 
     $("#options-select").change(function () {

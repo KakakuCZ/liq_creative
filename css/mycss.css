@@ -5,21 +5,20 @@
 #shipping,
 #customer,
 #options-select {
-    width: 110%;
+    width: 100%;
 }
 
 #div-finishing-optional,
 #labour-time,
-#length, 
-#rev-labour-time,
-#rev-finishing-opt {
+#length {
     margin-top: 3px;
 }
 
 #div-finishing-optional,
 #options,
 #order-screen,
-#view-orders {
+#view-orders,
+#customer-details {
     display: none;
 }
 
@@ -37,4 +36,16 @@
 .my-btn-col {
     padding-right: 7.5px;
     padding-left: 7.5px;
+}
+
+#customer-details .col {
+    display: inline-flex;
+}
+
+#customer-details .row {
+    margin-top: 12.5px;
+}
+
+#customer-details {
+    color: #495057;
 }

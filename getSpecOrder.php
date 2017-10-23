@@ -13,9 +13,6 @@ foreach ($order as $val) {
         }
     }
 }
-//$order = $order[0];
-
-//$order["product_id"] = $productsArray;
 
 $output = [
     "order" => $order

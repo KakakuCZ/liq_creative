@@ -36,6 +36,18 @@ $customers = $formManager->getListOfAllCustomers();
                                         </select>
                                     </div>
                                 </div>
+                                <div id="customer-details">
+                                    <div class="row">
+                                        <div class="col justify-content-end">
+                                            <span id="customer-phone"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col justify-content-end">
+                                            <span id="customer-email"></span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="options">
                                     <div class="dropdown-divider"></div>
                                     <div class="row">
@@ -181,7 +193,7 @@ $customers = $formManager->getListOfAllCustomers();
                                         <div class="col my-btn-col">
                                             <button type="submit" class="btn btn-block btn-success" id="order-btn">Save</button>
                                         </div>
-                                        <div class="col my-btn-col">
+                                        <div class="col my-btn-col" style="display: none">
                                             <button type="button" class="btn btn-block btn-info">Add</button>
                                         </div>
                                         <div class="col my-btn-col">
