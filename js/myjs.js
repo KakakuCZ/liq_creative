@@ -68,11 +68,23 @@ function loadCustomerDetails(customer) {
         data: {"customerId": customer.val()},
         success: function (data) {
             var details = data.details;
+            var dataArray;
             $(details).each(function (index, data) {
-                $("#customer-phone").html(data.phone_number);
-                $("#customer-email").html(data.email);
+                dataArray = {
+                    phone: data.phone_number,
+                    email: data.email
+                };
             });
-            $("#customer-details").slideDown();
+            if ($("#customer-details").is(":visible"))
+                $(".customer-details").fadeOut(275, function () {
+                    $("#customer-phone").html(dataArray.phone);
+                    $("#customer-email").html(dataArray.email);
+                }).fadeIn(275);
+            else {
+                $("#customer-phone").html(dataArray.phone);
+                $("#customer-email").html(dataArray.email);
+                $("#customer-details").slideDown();
+            }
         }
     });
 }
@@ -287,9 +299,7 @@ function choosedCustomer(customer) {
         } else {
             $("#order-screen").slideUp("slow");
             loadOrders(customer);
-            $("#customer-details").fadeOut(275, function () {
-                loadCustomerDetails(customer);
-            }).fadeIn(275);
+            loadCustomerDetails(customer);
             $("#options").val("0");
             $("#options").slideDown();
         }

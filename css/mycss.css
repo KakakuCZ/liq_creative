@@ -42,8 +42,16 @@
     display: inline-flex;
 }
 
+#customer-details span {
+    margin-right: 10px;
+}
+
+#customer-details i {
+    margin-left: 10px;
+}
+
 #customer-details .row {
-    margin-top: 12.5px;
+    margin-top: 15px;
 }
 
 #customer-details {

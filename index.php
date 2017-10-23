@@ -38,12 +38,18 @@ $customers = $formManager->getListOfAllCustomers();
                                 </div>
                                 <div id="customer-details">
                                     <div class="row">
-                                        <div class="col justify-content-end">
+                                        <div class="col-4">
+                                            <i class="material-icons">phone</i>
+                                        </div>
+                                        <div class="col justify-content-end customer-details">
                                             <span id="customer-phone"></span>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col justify-content-end">
+                                        <div class="col-4">
+                                            <i class="material-icons">email</i>
+                                        </div>
+                                        <div class="col justify-content-end customer-details">
                                             <span id="customer-email"></span>
                                         </div>
                                     </div>
