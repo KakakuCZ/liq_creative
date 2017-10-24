@@ -76,10 +76,10 @@ function loadCustomerDetails(customer) {
                 };
             });
             if ($("#customer-details").is(":visible"))
-                $(".customer-details").fadeOut(275, function () {
+                $(".customer-details").fadeOut(250, function () {
                     $("#customer-phone").html(dataArray.phone);
                     $("#customer-email").html(dataArray.email);
-                }).fadeIn(275);
+                }).fadeIn(250);
             else {
                 $("#customer-phone").html(dataArray.phone);
                 $("#customer-email").html(dataArray.email);
@@ -167,11 +167,6 @@ function checkOption() {
 /**
  * @param {HTML IDs} element
  * @param {Array of key codes} keyCodes
- * 
- * Some codes
- * 38: arrow up
- * 40: arrow down
- * 69: letter e
  */
 function disableKeyDown(element, keyCodes) {
     $("form").on("keydown", element, function (e) {
@@ -389,14 +384,7 @@ $(document).ready(function () {
         singleCheck($(this));
     });
 
-    // Disable scroll when focused on the phone number input
-    $("form").on("focus", "#phone", function (e) {
-        $(this).on("wheel", function (e) {
-            e.preventDefault();
-        });
-    });
-
-    // Disable up, down and e keys
+    // Disable "e" key
     disableKeyDown("#width", [69]);
     disableKeyDown("#length", [69]);
 
