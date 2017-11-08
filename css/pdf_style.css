@@ -1,0 +1,152 @@
+#title-box {
+    height: 4%;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#sketch-table {
+    margin: 0;    
+}
+
+#sketch {
+    height: 177px;
+    max-height: 177px;
+    border-bottom: 1px solid black;
+    padding: 15px;
+}
+
+#print-length {
+    border-left: 1px solid black;
+    text-align: left;
+    padding-left: 10px;
+}
+
+#print {
+    background-color: #efefef;
+}
+
+#print-width {
+    border-top: 1px solid black;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.print-size {
+    border: hidden;
+}
+
+#calc {
+    padding: 15px;
+}
+
+li {
+    font-size: 19px;
+}
+
+.li-title {
+    margin-top: 15px;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 15px;
+    border-style: hidden;
+    width: 100%;
+}
+
+table,
+td,
+.box,
+#print {
+    border: 1px solid black;
+}
+
+#calc-box {
+    margin-top: 2.5%;
+    height: 90%;
+}
+
+#title-sec-col {
+    padding: 7px 0 7px 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.type {
+    margin-top: 28.5px;
+}
+
+.type-title {
+    font-weight: bold;
+    font-size: 16px;
+    padding: 4px 10px 4px 10px;
+}
+
+.first-col {
+    width: 36%;
+}
+
+td {
+    font-size: 12px;
+    padding: 3px 5px 3px 5px;
+}
+
+.bg-gray {
+    background-color: #c8c8af;
+}
+
+.bg-black {
+    background-color: black;
+    color: white;
+}
+
+.void-col {
+    border-top: none;
+    border-bottom: none;
+    width: 6%;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+.sign {
+    background-color: #d7d7c8;
+    width: 10px;
+}
+
+#tb-total {
+    text-align: center;
+    margin-top: 0;
+}
+
+#tb-total td {
+    padding: 1px 5px 1px 5px;
+}
+
+.tb-number {
+    font-size: 9px;
+    padding-top: 0.5px;
+    padding-bottom: 0.5px;
+    font-weight: bold;
+}
+
+.tb-title {
+    margin-top: 0;
+}
+
+.second-col {
+    width: 11%;
+}
+
+.tb-second-col {
+    width: 11%;
+}
+
+.second-col,
+.tb-second-col {
+    font-weight: bold;
+    text-align: center;
+}
