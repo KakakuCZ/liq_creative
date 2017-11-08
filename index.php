@@ -135,7 +135,15 @@ $customers = $formManager->getListOfAllCustomers();
                                             <label>Ink<br>(£14.00/m<sup>2</sup>)</label>
                                         </div>
                                         <div class="col">
-                                            <input type="text" value="£0.00" class="form-control" id="ink" disabled="true">
+                                            <div>
+                                                <select id="ink-select" name="ink" class="custom-select product-select">
+                                                    <option value="1">Yes</option>
+                                                    <option selected value="2">No</option>
+                                                </select>
+                                            </div>
+                                            <div id="div-ink">
+                                                <input type="text" value="£0.00" class="form-control" id="ink" disabled="true">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="dropdown-divider"></div>
@@ -199,8 +207,8 @@ $customers = $formManager->getListOfAllCustomers();
                                         <div class="col my-btn-col">
                                             <button type="submit" class="btn btn-block btn-success" id="order-btn">Save</button>
                                         </div>
-                                        <div class="col my-btn-col" style="display: none">
-                                            <button type="button" class="btn btn-block btn-info">Add</button>
+                                        <div class="col my-btn-col" id="div-pdf-btn">
+                                            <a target="_blank" href="createPDF.php" class="btn btn-block btn-info" id="pdf-btn">PDF</a>
                                         </div>
                                         <div class="col my-btn-col">
                                             <input type="text" value="£0.00" class="form-control" id="total-price" disabled="true">

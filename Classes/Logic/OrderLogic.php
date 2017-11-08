@@ -39,7 +39,13 @@ class OrderLogic {
         $orderData['order_name'] = $order->getOrderName();
         $orderData['width'] = $order->getWidth() * 1000;
         $orderData['length'] = $order->getLength() * 1000;
-
+        
+        if ($order->getInk() === TRUE) {
+            $orderData['ink_boolean'] = 1;
+        } else {
+            $orderData['ink_boolean'] = 0;
+        }
+        
         if ($order->getShipping() === TRUE) {
             $orderData['shipping_boolean'] = 1;
         } else {
@@ -71,6 +77,11 @@ class OrderLogic {
         $orderData['order_name'] = $order->getOrderName();
         $orderData['width'] = $order->getWidth() * 1000;
         $orderData['length'] = $order->getLength() * 1000;
+        if ($order->getInk() === TRUE) {
+            $orderData['ink_boolean'] = 1;
+        } else {
+            $orderData['ink_boolean'] = 0;
+        }
         if ($order->getShipping() === TRUE) {
             $orderData['shipping_boolean'] = 1;
         } else {

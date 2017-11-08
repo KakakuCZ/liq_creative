@@ -11,9 +11,6 @@ function loadClass($class)
 }
 spl_autoload_register("loadClass");
 
-function includeHead()
-{
+function includeHead() {
     require_once 'head.phtml';
 }
-?>
-

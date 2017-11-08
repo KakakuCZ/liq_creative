@@ -4,13 +4,15 @@
 #finishing-optional,
 #shipping,
 #customer,
-#options-select {
+#options-select,
+#ink-select{
     width: 100%;
 }
 
 #div-finishing-optional,
 #labour-time,
-#length {
+#length,
+#ink {
     margin-top: 3px;
 }
 
@@ -18,7 +20,8 @@
 #options,
 #order-screen,
 #view-orders,
-#customer-details {
+#customer-details,
+#div-ink {
     display: none;
 }
 

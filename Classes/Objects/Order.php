@@ -49,6 +49,7 @@ class Order {
 
     /** @var  Product|Null */
     protected $printMedia;
+    protected $ink;
     protected $finishing;
     protected $shipping;
     protected $customer;
@@ -83,6 +84,7 @@ class Order {
             'length',
             'baseMedia',
             'printMedia',
+            'ink',
             'finishing',
             'shipping',
             'customer',
@@ -109,9 +111,17 @@ class Order {
     protected function setInitialized($value) {
         $this->initilized = $value;
     }
+    
+    public function isInitialized(): bool {
+        return $this->initilized;
+    }
 
     public function setOrderName($orderName) {
         $this->orderName = $orderName;
+    }
+
+    public function getSquareMetres() {
+        return $this->squareMetres;
     }
 
     public function getOrderName() {
@@ -148,6 +158,18 @@ class Order {
         $this->length = $length / 1000;
     }
 
+    public function getRoleMetres() {
+        return $this->roleMetres;
+    }
+
+    public function setInk($ink) { //:bool
+        $this->ink = $ink;
+    }
+
+    public function getInk(): bool {
+        return (bool) $this->ink;
+    }
+
     public function setShipping($shipping) { //:bool
         $this->shipping = $shipping;
     }
@@ -172,7 +194,7 @@ class Order {
         return $this->finishing;
     }
 
-    private function countRoleMetres() {
+    public function countRoleMetres() {
         if ($this->width > self::ROLE_WIDTH && $this->length > self::ROLE_WIDTH) {
             throw new InvalidSizeException();
         }
@@ -208,7 +230,9 @@ class Order {
         }
 
         //Ink
-        $totalPrice += $this->getInkPrice();
+        if ($this->ink === TRUE) {
+            $totalPrice += $this->getInkPrice();
+        }
 
         //Finishing
         if ($this->finishing != null) {
@@ -235,7 +259,11 @@ class Order {
     }
 
     public function getInkPrice(): float {
-        return self::PRICE_INK * $this->squareMetres;
+        if ($this->ink) {
+            return self::PRICE_INK * $this->squareMetres;
+        } else {
+            return 0;
+        }
     }
 
     public function getFinishingPrice(): float {
@@ -315,7 +343,7 @@ class Order {
         return $totalMinutes / 60;
     }
 
-    private function getNumberOfEyelet(): int {
+    public function getNumberOfEyelet(): int {
         $number = 4;
         $inputs = array($this->length * 100, $this->width * 100);
         foreach ($inputs as $value) {

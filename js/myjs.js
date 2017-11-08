@@ -2,20 +2,15 @@ function makePrice(price) {
     return '£' + parseFloat(Math.round(price * 100) / 100).toFixed(2);
 }
 
-function recalculatePrices() {
+function getAllInputsArray() {
     var widthInput = $('#width');
     var lengthInput = $('#length');
     var baseMediaInput = $('#basemedia');
     var printMediaInput = $('#printmedia');
+    var inkSelect = $('#ink-select');
     var finishingInput = $('#finishing');
     var finishingOptInput = $('#finishing-optional');
     var shippingInput = $('#shipping');
-
-    var totalPrice = $('#total-price');
-    var inkPrice = $('#ink');
-    var labourPrice = $('#labour');
-    var labourTime = $('#labour-time');
-
     var finishingTot = [
         $(finishingInput).val(),
         $(finishingOptInput).val()
@@ -25,9 +20,19 @@ function recalculatePrices() {
         'length': $(lengthInput).val(),
         'baseMedia': $(baseMediaInput).val(),
         'printMedia': $(printMediaInput).val(),
+        'ink': $(inkSelect).val(),
         'finishing': finishingTot,
         'shipping': $(shippingInput).val()
     };
+    return inputs;
+}
+
+function recalculatePrices() {
+    var inputs = getAllInputsArray();
+    var totalPrice = $('#total-price');
+    var inkPrice = $('#ink');
+    var labourPrice = $('#labour');
+    var labourTime = $('#labour-time');
     $.ajax({
         dataType: "json",
         method: "GET",
@@ -84,6 +89,7 @@ function loadCustomerDetails(customer) {
                 $("#customer-phone").html(dataArray.phone);
                 $("#customer-email").html(dataArray.email);
                 $("#customer-details").slideDown();
+                $("#options").slideDown();
             }
         }
     });
@@ -116,6 +122,13 @@ function loadSingleOrder(order) {
                             $("#finishing-optional").val(val.product_id);
                         break;
                 }
+                if (val.ink === "1") {
+                    $("#ink-select").val("1");
+                    $("#div-ink").show();
+                } else {
+                    $("#ink-select").val("2");
+                    $("#div-ink").hide();
+                }
                 if (val.shipping === "1")
                     $("#shipping").val("1");
                 else
@@ -123,6 +136,8 @@ function loadSingleOrder(order) {
             });
             recalculatePrices();
             $("#order-btn").html("Update");
+            $("#div-pdf-btn").show();
+            $("#pdf-btn").attr("href", "createPDF.php?orderID=" + order.val());
             $("#new-order-form").attr("action", "updateOrder.php");
             changeOptionalText("#basemedia", "#printmedia");
             changeOptionalText("#printmedia", "#basemedia");
@@ -295,8 +310,6 @@ function choosedCustomer(customer) {
             $("#order-screen").slideUp("slow");
             loadOrders(customer);
             loadCustomerDetails(customer);
-            $("#options").val("0");
-            $("#options").slideDown();
         }
     else
         closeAllTabs();
@@ -315,6 +328,8 @@ function choosedOption(option) {
         if (option.val() === "new-order") {
             orderScreen.slideUp(400, function () {
                 $("#order-btn").html("Save");
+                $("#div-pdf-btn").hide();
+                $("#pdf-btn").attr("href", "#");
                 $("#new-order-form").attr("action", "saveOrder.php");
                 clearOrderForm();
                 checkOption();
@@ -393,7 +408,17 @@ $(document).ready(function () {
             evt.preventDefault();
     });
 
-    $('.product-select').change(function () {
+    $("#ink-select").change(function () {
+        if ($(this).val() === "1") {
+            recalculatePrices();
+            $("#div-ink").slideDown();
+        } else
+            $("#div-ink").slideUp(function () {
+                recalculatePrices();
+            });
+    });
+
+    $('.product-select').not("#ink-select").change(function () {
         recalculatePrices();
     });
 
@@ -407,13 +432,11 @@ $(document).ready(function () {
                 value: customer.id,
                 text: customer.name
             }));
-
+            $('#add-customer-form').modal('hide');
             $('#first-name').val('');
             $('#last-name').val('');
             $('#phone').val('');
             $('#email').val('');
-
-            $('#add-customer-form').modal('hide');
         }
     });
 });

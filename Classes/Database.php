@@ -168,9 +168,9 @@ class Database {
     public function insertOrder($data) {
         $query = $this->connection->prepare(
                 "INSERT INTO `orders`
-                      (`customer_id`, `name`, `date`, `size_1`, `size_2`, `shipping`, `total_price`)
-                      VALUES(?, ?, now(), ?, ?, ?, ?)");
-        $query->execute([$data['customer_id'], $data['order_name'], $data['width'], $data['length'], $data['shipping_boolean'], $data['total_price']]);
+                      (`customer_id`, `name`, `date`, `size_1`, `size_2`, `ink`, `shipping`, `total_price`)
+                      VALUES(?, ?, now(), ?, ?, ?, ?, ?)");
+        $query->execute([$data['customer_id'], $data['order_name'], $data['width'], $data['length'], $data['ink_boolean'], $data['shipping_boolean'], $data['total_price']]);
 
         return $this->connection->lastInsertId();
     }
@@ -195,7 +195,7 @@ class Database {
     }
 
     public function getSpecOrder($orderID) {
-        $query = $this->connection->prepare("SELECT O.id, O.name, O.size_1, O.size_2, O.shipping, O.total_price, OP.product_id, PT.id AS 'type'"
+        $query = $this->connection->prepare("SELECT O.id, O.name, O.size_1, O.size_2, O.ink, O.shipping, O.total_price, OP.product_id, PT.id AS 'type'"
                 . "FROM orders O, orders_part OP, product_list PL, product_types PT "
                 . "WHERE O.id = ? AND OP.order_id = ? AND OP.product_id = PL.id AND PT.id = PL.product_type_id");
         $query->execute([$orderID, $orderID]);
@@ -205,9 +205,9 @@ class Database {
     public function updateOrderByID($data, $orderID) {
         $query = $this->connection->prepare(
                 "UPDATE orders "
-                . "SET name = ?, size_1 = ?, size_2 = ?, shipping = ?, total_price = ? "
+                . "SET name = ?, size_1 = ?, size_2 = ?, ink = ?, shipping = ?, total_price = ? "
                 . "WHERE id = ?");
-        $query->execute([$data["order_name"], $data["width"], $data["length"], $data["shipping_boolean"], $data["total_price"], $orderID]);
+        $query->execute([$data["order_name"], $data["width"], $data["length"], $data["ink_boolean"], $data["shipping_boolean"], $data["total_price"], $orderID]);
     }
 
     public function updateProductsByID($orderID, $productID, $type) {
